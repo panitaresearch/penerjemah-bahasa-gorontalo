@@ -1,0 +1,8 @@
+{
+  "completed": true,
+  "timestamp_utc": "2026-11-15T05:21:49Z",
+  "base_model": "Qwen/Qwen2.5-7B-Instruct",
+  "train_samples": 130499,
+  "epochs": 1,
+  "train_loss": 1.6235
+}

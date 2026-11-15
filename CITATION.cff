@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: "Penerjemah Bahasa Gorontalo <-> Bahasa Indonesia (v6): Selective Corpus Reconciliation, Four Pateda Strategies, and Three-Architecture Benchmark"
+message: "If you use this software, models, or research papers, please cite them using the metadata below."
+type: software
+authors:
+  - family-names: Tanipu
+    given-names: Funco
+  - family-names: Sumual
+    given-names: Richic Oct
+  - given-names: Budiyanto
+  - given-names: Thomas Jr
+repository-code: "https://github.com/panitaresearch/penerjemah-bahasa-gorontalo"
+url: "https://huggingface.co/spaces/panitagorontalo/penerjemah-bahasa-gorontalo"
+license: Apache-2.0
+version: "6.0.0"
+date-released: "2026-11-15"
+keywords:
+  - gorontalo
+  - bahasa-hulontalo
+  - indonesian-nlp
+  - low-resource-machine-translation
+  - nllb-200
+  - qwen2-5
+  - gemma3
+  - lora
+  - mansoer-pateda

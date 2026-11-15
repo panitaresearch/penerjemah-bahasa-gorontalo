@@ -1,0 +1,94 @@
+{
+  "mode": "apply",
+  "v5_baseline": {
+    "combined_parallel_sentences": 29235,
+    "combined_lexicon_id_to_gor": 26798,
+    "seq2seq_test_ind2gor": 1096
+  },
+  "whitelisted_candidates_valid": {
+    "Sheet12": 11043,
+    "GORONTALO V1": 8175,
+    "INDONESIA V1": 7276
+  },
+  "blacklisted_sheets_skipped": [
+    "GORONTALO",
+    "GORONTALO-INDONESIA",
+    "GORONTALO SIMPLE",
+    "INDONESIA",
+    "INDONESIA GORONTALO",
+    "INDONESIA 2 (raw tanpa verifikasi IV1)",
+    "INDONESIA_GABUNG",
+    "Copy of INDONESIA_GABUNG",
+    "datasetkata"
+  ],
+  "repairs_summary": {
+    "total_v5_rows_repaired": 3409,
+    "by_repair_type": {
+      "both_gor_and_id_repair": 591,
+      "gor_truncation_rescue": 2196,
+      "gor_ocr_token_repair": 22,
+      "id_ocr_repair": 600
+    },
+    "by_v5_split": {
+      "filtered_out_of_clean_splits": 500,
+      "train": 2584,
+      "test": 163,
+      "val": 162
+    },
+    "by_source_sheet": {
+      "Sheet12": 2115,
+      "GORONTALO V1": 821,
+      "INDONESIA V1": 473
+    },
+    "id_ocr_manual_review_queue": 250
+  },
+  "novel_parallel_summary": {
+    "total_novel_parallel": 311,
+    "by_source_sheet": {
+      "Sheet12": 242,
+      "GORONTALO V1": 31,
+      "INDONESIA V1": 38
+    }
+  },
+  "novel_lexicon_summary": {
+    "total_novel_lexicon": 5241,
+    "by_source_sheet": {
+      "GORONTALO V1": 755,
+      "INDONESIA V1": 4486
+    }
+  },
+  "rejected_summary": {
+    "total_rejected_rows": 8153,
+    "top_reasons": {
+      "INDONESIA V1::ambiguous_eq_or_error": 3095,
+      "INDONESIA V1::failed_bas_is_clean_parallel": 1933,
+      "INDONESIA V1::unverified_excel_error": 1313,
+      "Sheet12::failed_bas_is_clean_parallel": 280,
+      "Sheet12::indonesian_leak_in_gor": 176,
+      "INDONESIA V1::empty_side": 155,
+      "GORONTALO V1::missing_indonesian_evidence": 138,
+      "INDONESIA V1::indonesian_leak_in_gor": 136,
+      "GORONTALO V1::leading_nonalpha_ocr_ind": 106,
+      "Sheet12::missing_indonesian_evidence": 104,
+      "INDONESIA V1::missing_indonesian_evidence": 81,
+      "GORONTALO V1::failed_bas_is_clean_parallel": 73,
+      "GORONTALO V1::editorial_placeholder_ind": 71,
+      "GORONTALO V1::glued_colon_in_id": 68,
+      "GORONTALO V1::empty_side": 58,
+      "Sheet12::empty_side": 40,
+      "Sheet12::untranslated_identical_pair": 36,
+      "Sheet12::meta_or_page_header_ind": 27,
+      "INDONESIA V1::leading_nonalpha_ocr_ind": 21,
+      "GORONTALO V1::non_ascii_or_arrow_gor": 18,
+      "INDONESIA V1::non_ascii_or_arrow_gor": 18,
+      "Sheet12::glottal_mark_in_id": 17,
+      "GORONTALO V1::formula_or_placeholder_ind": 17,
+      "INDONESIA V1::meta_or_page_header_ind": 16,
+      "INDONESIA V1::glottal_mark_in_id": 15
+    }
+  },
+  "applied_counts": {
+    "combined_parallel_sentences_new": 29546,
+    "combined_lexicon_id_to_gor_new": 32039
+  }
+}

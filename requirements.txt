@@ -1,0 +1,26 @@
+# Core Inference, Fine-Tuning & Hub Dependencies
+torch>=2.3.0
+transformers>=4.45.0
+peft>=0.13.0
+accelerate>=0.34.0
+huggingface_hub>=0.25.0
+sentencepiece
+protobuf
+
+# Training, Dataset Construction & Evaluation
+datasets>=2.20.0
+pandas
+pyarrow
+sacrebleu
+
+# Web Demo (Gradio Server)
+gradio>=4.44.0
+
+# Optional: Install manually for 4-bit NF4 QLoRA inference/training on 15-24 GB GPUs
+# bitsandbytes>=0.44.0
+
+# Optional: Needed only if re-running dictionary OCR PDF extraction scripts
+# pymupdf
+# pytesseract
+# pillow
+# openpyxl

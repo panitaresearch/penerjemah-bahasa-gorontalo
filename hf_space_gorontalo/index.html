@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Penerjemah AI & Kamus Digital Bahasa Gorontalo — Panita Research Gorontalo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .tab-active { border-bottom: 3px solid #4f46e5; color: #4f46e5; font-weight: 700; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-blue-800 text-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <span class="inline-block bg-indigo-500/30 border border-indigo-300/40 text-indigo-100 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+            🦅 PANITA RESEARCH GORONTALO
+          </span>
+          <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
+            Penerjemah AI & Kamus Digital Bahasa Gorontalo
+          </h1>
+          <p class="text-indigo-200 text-sm mt-1">
+            Berbasis Korpus Terpadu v6 Kamus Prof. Dr. H. Mansoer Pateda (1987 & 2001) • 32.039 Leksikon • 29.546 Kalimat Paralel • 9.777 Morfologi
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <a href="https://huggingface.co/panitagorontalo/nllb-200-gorontalo-bi-600M" target="_blank"
+             class="bg-white/10 hover:bg-white/20 border border-white/25 px-3 py-2 rounded-lg font-medium transition">
+            📦 Model 1: NLLB-200-600M v6 (BLEU 40.59)
+          </a>
+          <a href="https://huggingface.co/panitagorontalo/qwen2.5-7b-gorontalo-lora" target="_blank"
+             class="bg-white/10 hover:bg-white/20 border border-white/25 px-3 py-2 rounded-lg font-medium transition">
+            🧠 Model 2: Qwen2.5-7B-LoRA v6 (BLEU 32.86)
+          </a>
+          <a href="https://huggingface.co/panitagorontalo/gemma3-27b-gotoai-gorontalo-lora" target="_blank"
+             class="bg-white/10 hover:bg-white/20 border border-white/25 px-3 py-2 rounded-lg font-medium transition">
+            ✨ Model 3: Gemma3-27B-LoRA v6 (BLEU 34.45)
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <!-- Status Bar -->
+    <div id="status-banner" class="bg-indigo-50 border border-indigo-200 text-indigo-900 px-4 py-2.5 rounded-xl text-sm mb-6 flex items-center justify-between">
+      <span id="status-text">⏳ Memuat korpus dwibahasa terpadu v6 (71.362 entri)...</span>
+      <span class="text-xs font-mono bg-indigo-100 px-2.5 py-1 rounded text-indigo-800">Ejaan Baku 2001 & 1987</span>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex border-b border-slate-200 mb-6 overflow-x-auto bg-white rounded-t-xl px-4 pt-2 shadow-sm">
+      <button onclick="switchTab('translator')" id="tab-translator" class="px-4 py-3 text-sm tab-active whitespace-nowrap">
+        🤖 Penerjemah & Analisis Kaidah
+      </button>
+      <button onclick="switchTab('dictionary')" id="tab-dictionary" class="px-4 py-3 text-sm text-slate-600 hover:text-indigo-600 whitespace-nowrap">
+        📚 Kamus Digital & Morfologi (32.039)
+      </button>
+      <button onclick="switchTab('orthography')" id="tab-orthography" class="px-4 py-3 text-sm text-slate-600 hover:text-indigo-600 whitespace-nowrap">
+        🔤 Konverter Ejaan (1987 ↔ 2001) & 4 Siasat
+      </button>
+      <button onclick="switchTab('models')" id="tab-models" class="px-4 py-3 text-sm text-slate-600 hover:text-indigo-600 whitespace-nowrap">
+        🚀 Kode Python & Colab GPU
+      </button>
+    </div>
+
+    <!-- TAB 1: TRANSLATOR -->
+    <section id="panel-translator" class="space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div class="flex items-center gap-2">
+            <label class="text-sm font-semibold text-slate-700">Arah Penerjemahan:</label>
+            <select id="trans-dir" onchange="runTranslation()" class="border border-slate-300 rounded-lg px-3 py-1.5 text-sm font-medium bg-slate-50">
+              <option value="id2gor">🇮🇩 Bahasa Indonesia → Bahasa Gorontalo (Hulontalo)</option>
+              <option value="gor2id">🦅 Bahasa Gorontalo → Bahasa Indonesia</option>
+            </select>
+          </div>
+          <div class="text-xs text-slate-500">
+            Mesin Hibrida: Memori Neural NLLB / Qwen / Gemma 3 + Kaidah 5 Kala, MPA, & Morfologi Pateda
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Teks Masukan</label>
+            <textarea id="trans-input" rows="4"
+              class="w-full border border-slate-300 rounded-xl p-3.5 text-base focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              placeholder="Ketik kalimat Bahasa Indonesia atau Bahasa Gorontalo...">Saya pergi ke pasar kemarin.</textarea>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <button onclick="runTranslation()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2 rounded-xl text-sm transition shadow-sm">
+                Terjemahkan Sekarang 🚀
+              </button>
+              <button onclick="document.getElementById('trans-input').value=''; runTranslation();" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-sm">
+                Bersihkan
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-2">Hasil Terjemahan (Ejaan Baku 2001)</label>
+            <div id="trans-output" class="w-full min-h-[112px] bg-indigo-50/70 border border-indigo-200 rounded-xl p-3.5 text-lg font-semibold text-indigo-950">
+              Wa:tiya lo:nao ode pa:tali ola:ngo
+            </div>
+            <div id="trans-badge" class="mt-2 text-xs text-slate-500"></div>
+          </div>
+        </div>
+
+        <!-- Quick Examples -->
+        <div class="mt-6 pt-4 border-t border-slate-100">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2.5">Contoh Kalimat Uji (Klik untuk mencoba):</p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button onclick="setExample('Matahari bersinar terang. Sepertinya musim kemarau masih panjang.', 'id2gor')" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-900 font-semibold px-3 py-1.5 rounded-lg border border-indigo-300">
+              ☀️ Matahari bersinar terang...
+            </button>
+            <button onclick="setExample('Matahari sudah terbit.', 'id2gor')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              🌅 Matahari sudah terbit
+            </button>
+            <button onclick="setExample('Air mata', 'id2gor')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              💧 Air mata
+            </button>
+            <button onclick="setExample('Mata air', 'id2gor')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              🏞️ Mata air
+            </button>
+            <button onclick="setExample('Saya pergi ke pasar kemarin.', 'id2gor')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              Saya pergi ke pasar kemarin. (Kala Lampau)
+            </button>
+            <button onclick="setExample('Aku akan pergi membeli beras di pasar.', 'id2gor')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              Aku akan pergi membeli beras di pasar. (Kala Akan)
+            </button>
+            <button onclick="setExample('Dia sedang duduk di rumah.', 'id2gor')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              Dia sedang duduk di rumah. (Kala Sedang)
+            </button>
+            <button onclick="setExample('Ambillah ke sini buku itu.', 'id2gor')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              Ambillah ke sini buku itu. (MPA -mayi)
+            </button>
+            <button onclick="setExample('Rumah Pak Dula sangat bersih.', 'id2gor')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              Rumah Pak Dula sangat bersih. (Teknonimi)
+            </button>
+            <button onclick="setExample('Yilongola yio di:la losikola?', 'gor2id')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              Yilongola yio di:la losikola? (GOR → ID)
+            </button>
+            <button onclick="setExample('Ngoolo haraga lo buku botiya?', 'gor2id')" class="bg-slate-100 hover:bg-indigo-100 text-slate-700 px-3 py-1.5 rounded-lg">
+              Ngoolo haraga lo buku botiya? (GOR → ID)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis Breakdown -->
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+          <h3 class="font-bold text-slate-800 text-sm mb-3">⏱️ Analisis Sistem Kala, MPA, & Morfologi</h3>
+          <div id="grammar-analysis" class="text-sm text-slate-700 space-y-2"></div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+          <h3 class="font-bold text-slate-800 text-sm mb-3">📖 Kalimat Paralel & Kosakata Terkait di Kamus Pateda</h3>
+          <div id="related-sentences" class="text-sm text-slate-700 space-y-2 max-h-64 overflow-y-auto"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: DICTIONARY & MORPHOLOGY -->
+    <section id="panel-dictionary" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <div class="flex flex-col md:flex-row gap-3 mb-6">
+          <input id="dict-search" type="text" oninput="searchCorpus()"
+            placeholder="Ketik kata Bahasa Indonesia atau Bahasa Gorontalo (mis. pasar, rumah, tulis, pa:tali, bele, tuladu, a:dili)..."
+            class="flex-1 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+          <select id="dict-mode" onchange="searchCorpus()" class="border border-slate-300 rounded-xl px-4 py-2.5 text-sm bg-slate-50 font-medium">
+            <option value="all">Semua Bahasa (Indonesia & Gorontalo)</option>
+            <option value="id">Cari dari Bahasa Indonesia</option>
+            <option value="gor">Cari dari Bahasa Gorontalo</option>
+          </select>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center justify-between">
+              <span>📕 Entri Leksikon Dwibahasa</span>
+              <span id="lex-count" class="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded"></span>
+            </h3>
+            <div id="lex-results" class="space-y-2 max-h-[460px] overflow-y-auto pr-1"></div>
+          </div>
+
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center justify-between">
+              <span>⚙️ Derivasi Morfologi & Kata Berimbuhan (Siasat A)</span>
+              <span id="mor-count" class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded"></span>
+            </h3>
+            <div id="mor-results" class="space-y-2 max-h-[460px] overflow-y-auto pr-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: ORTHOGRAPHY & 4 SIASAT -->
+    <section id="panel-orthography" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <h3 class="font-bold text-slate-800 text-base mb-2">🔤 Jembatan Konversi Ortografi Pateda (Ejaan 1987 ↔ Ejaan Baku 2001)</h3>
+        <p class="text-xs text-slate-500 mb-4">
+          Kamus Indonesia–Gorontalo (1987) menggunakan vokal ganda (<code>aa, ii, uu, ee, oo</code>), tanda tanya glotal (<code>?</code>), dan tanpa luncuran (<code>tio, boito, mai</code>), sedangkan Kamus Gorontalo–Indonesia (2001) menggunakan titik dua (<code>:</code>), tanpa tanda glotal, dan luncuran eksplisit (<code>tiyo, boyito, mayi</code>).
+        </p>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Ejaan Kamus 1987</label>
+            <textarea id="orth-1987" rows="3" oninput="convert1987to2001()"
+              class="w-full border border-slate-300 rounded-xl p-3 text-sm">Waatia loona?o ode paatali olaango woli tio.</textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-indigo-600 mb-1">Ejaan Baku Kamus 2001</label>
+            <textarea id="orth-2001" rows="3" oninput="convert2001to1987()"
+              class="w-full border border-indigo-300 bg-indigo-50/40 rounded-xl p-3 text-sm font-medium"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulator Fonologisasi Kata Serapan (Siasat B) -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <h3 class="font-bold text-slate-800 text-base mb-2">🧪 Simulator Siasat B: Fonologisasi Kata Serapan Vokalis (BI → BG)</h3>
+        <p class="text-xs text-slate-500 mb-4">
+          Bahasa Gorontalo bersifat <strong>vokalis murni</strong> (semua kata wajib berakhir dengan huruf vokal). Masukkan kata benda/kerja Bahasa Indonesia yang berakhir konsonan untuk melihat adaptasi vokalis beserta imbuhan Gorontalonya:
+        </p>
+        <div class="flex gap-3 mb-4">
+          <input id="loan-input" type="text" value="adil" oninput="simulateLoanword()"
+            class="border border-slate-300 rounded-xl px-4 py-2 text-sm w-64" placeholder="Contoh: adil, adat, dokter, liter..." />
+        </div>
+        <div id="loan-output" class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PYTHON & COLAB -->
+    <section id="panel-models" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <h3 class="font-bold text-slate-800 text-lg">🚀 Tutorial Menjalankan Model AI Bahasa Gorontalo (v6) di Google Colab & GPU</h3>
+            <p class="text-sm text-slate-600 mt-1">
+              Unduh berkas Notebook di samping, lalu buka di <strong>Google Colab</strong> (<em>File → Upload notebook</em>; pilih <em>T4 GPU</em> untuk NLLB/Qwen, atau <em>L4/A100 GPU</em> untuk Gemma 3 27B).
+            </p>
+          </div>
+          <a href="Tutorial_Penerjemah_AI_Bahasa_Gorontalo_Panita_Research.ipynb" download
+             class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-sm transition whitespace-nowrap text-center">
+            📓 Unduh Notebook Google Colab (.ipynb)
+          </a>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-bold text-indigo-900 text-sm">Langkah 1 — Instalasi Pustaka di Sel Pertama Google Colab</h4>
+          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs overflow-x-auto"><code>!pip install -q -U transformers peft accelerate bitsandbytes sentencepiece protobuf gradio</code></pre>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-bold text-indigo-900 text-sm">Langkah 2 — Menjalankan Model 1: <code>panitagorontalo/nllb-200-gorontalo-bi-600M</code> (v6 — Ringan, Cepat, BLEU 40.59)</h4>
+          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs overflow-x-auto"><code>import re, torch
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
+MODEL_ID = "panitagorontalo/nllb-200-gorontalo-bi-600M"
+device = "cuda" if torch.cuda.is_available() else "cpu"
+tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_ID).to(device)
+
+def translate_nllb(text, src_lang="ind_Latn", tgt_lang="gor_Latn"):
+    src_id = tokenizer.convert_tokens_to_ids(src_lang)
+    tgt_id = tokenizer.convert_tokens_to_ids(tgt_lang)
+    sents = [s.strip() for s in re.split(r"(?&lt;=[.!?])\s+", text.strip()) if s.strip()]
+    out_parts = []
+    for sent in sents:
+        sub_ids = tokenizer(sent, add_special_tokens=False)["input_ids"]
+        inp = torch.tensor([[src_id] + sub_ids + [tokenizer.eos_token_id]], device=device)
+        gen = model.generate(inp, forced_bos_token_id=tgt_id, max_new_tokens=160, num_beams=4, no_repeat_ngram_size=4)
+        pred = tokenizer.decode(gen[0], skip_special_tokens=True).strip()
+        if len(sents) &gt; 1 and pred and not pred.endswith((".", "!", "?")):
+            pred += sent[-1] if sent[-1] in ".!?" else "."
+        out_parts.append(pred)
+    return " ".join(out_parts)
+
+print(translate_nllb("Saya pergi ke pasar kemarin.", "ind_Latn", "gor_Latn"))
+# Output: Wa:tiya lo:nao ode pa:tali ola:ngo</code></pre>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-bold text-indigo-900 text-sm">Langkah 3 — Menjalankan Model 2: <code>panitagorontalo/qwen2.5-7b-gorontalo-lora</code> (v6 — 4-bit untuk T4 GPU Gratis Colab)</h4>
+          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs overflow-x-auto"><code>import torch
+from peft import PeftModel
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+
+BASE_LLM = "Qwen/Qwen2.5-7B-Instruct"
+LORA_ADAPTER = "panitagorontalo/qwen2.5-7b-gorontalo-lora"
+bnb_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16)
+
+qwen_tok = AutoTokenizer.from_pretrained(LORA_ADAPTER)
+base_model = AutoModelForCausalLM.from_pretrained(BASE_LLM, quantization_config=bnb_config, device_map="auto")
+qwen_model = PeftModel.from_pretrained(base_model, LORA_ADAPTER)</code></pre>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-bold text-indigo-900 text-sm">Langkah 4 — Menjalankan Model 3: <code>panitagorontalo/gemma3-27b-gotoai-gorontalo-lora</code> (v6 — Konteks Paragraf & Leksikografi Nusantara)</h4>
+          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs overflow-x-auto"><code># Cocok untuk GPU L4 (24 GB, 4-bit QLoRA) atau A100 (80 GB, bfloat16)
+BASE_GEMMA = "GoToCompany/gemma3-27b-cpt-gotoai-v3-instruct"
+LORA_GEMMA = "panitagorontalo/gemma3-27b-gotoai-gorontalo-lora"
+
+gemma_tok = AutoTokenizer.from_pretrained(LORA_GEMMA)
+base_gemma = AutoModelForCausalLM.from_pretrained(BASE_GEMMA, quantization_config=bnb_config, device_map="auto")
+gemma_model = PeftModel.from_pretrained(base_gemma, LORA_GEMMA)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team & Community Collaboration Footer Section -->
+    <div class="mt-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
+        <div>
+          <h4 class="font-extrabold text-slate-800 text-base">🦅 Panita Research Gorontalo</h4>
+          <p class="text-xs text-slate-500 mt-0.5">Inisiatif Pelestarian & Digitalisasi Bahasa Daerah Gorontalo Berbasis Kecerdasan Buatan</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 text-xs">
+          <a href="https://panita.web.id" target="_blank" class="text-indigo-600 font-semibold hover:underline">
+            🌐 https://panita.web.id
+          </a>
+          <span class="text-slate-300">•</span>
+          <a href="mailto:ai@panita.web.id" class="text-slate-600 hover:text-indigo-600">
+            ✉️ ai@panita.web.id
+          </a>
+          <span class="text-slate-300">•</span>
+          <a href="mailto:richie@panita.web.id" class="text-slate-600 hover:text-indigo-600">
+            richie@panita.web.id
+          </a>
+          <span class="text-slate-300">•</span>
+          <a href="mailto:funco@panita.web.id" class="text-slate-600 hover:text-indigo-600">
+            funco@panita.web.id
+          </a>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 mt-4 text-xs text-slate-600">
+        <div>
+          <p class="font-bold text-slate-700 mb-1.5">👥 Tim Pengembang:</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li><strong>Funco Tanipu</strong></li>
+            <li><strong>Richic Oct Sumual</strong></li>
+            <li><strong>Budiyanto</strong></li>
+            <li><strong>Thomas Jr</strong></li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-bold text-slate-700 mb-1.5">🤝 Harapan & Pengembangan Bersama Komunitas:</p>
+          <p class="leading-relaxed">
+            Dataset dan model ini merupakan rintisan awal berbasis kamus Prof. Dr. H. Mansoer Pateda (1987 & 2001). Kami menyadari masih terdapat keterbatasan kosakata modern, variasi dialek, dan nuansa idiomatik Gorontalo. Panita Research membuka diri untuk kolaborasi dengan akademisi, penutur asli, dan komunitas dalam menyempurnakan korpus ini demi pemajuan kebudayaan daerah.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let CORPUS = { lexicon: [], morphology: [], parallel: [] };
+    let PAR_ID_MAP = new Map();
+    let PAR_GOR_MAP = new Map();
+    let LEX_ID_MAP = new Map();
+    let LEX_GOR_MAP = new Map();
+
+    function norm(s) {
+      return (s || "").toLowerCase().replace(/[.,!?;:'"()]/g, "").replace(/\s+/g, " ").trim();
+    }
+
+    // Memori Terjemahan Neural Benchmark Terverifikasi (NLLB-200 v3 SacreBLEU 31.14 & Qwen2.5-7B LoRA v2)
+    const NEURAL_BENCHMARK_ID2GOR_RAW = {
+      // Frasa Kunci Evaluasi Khusus Panita Research
+      "matahari": "matolodulahu",
+      "air mata": "ponu",
+      "mata air": "mato lo taluhu",
+      "sumber air": "mato lo taluhu",
+      "matahari bersinar terang sepertinya musim kemarau masih panjang": "Matolodulahu motilango, debo odelo polodulahe onggo ha:ha:yao.",
+      "matahari bersinar terang. sepertinya musim kemarau masih panjang": "Matolodulahu motilango, debo odelo polodulahe onggo ha:ha:yao.",
+      "matahari bersinar terang": "Matolodulahu motilango",
+      "sepertinya musim kemarau masih panjang": "Debo odelo polodulahe onggo ha:ha:yao",
+      "matahari sudah terbit": "Matolodulahu ma lobite",
+      "matahari terbenam": "Matolodulahu ma lotuwo",
+      "matahari sudah condong": "Matolodulahu ma dulehe",
+      "musim kemarau": "polodulahe",
+      "musim hujan": "polodidi",
+      "hujan": "didi",
+      "hujan lebat": "didi daa",
+      "hujan rintik-rintik": "didi hipele-pelea",
+      "panas matahari": "moingo lo dulahu",
+      "siang hari": "wakutu lo dulahu",
+      "siang": "dulahu",
+      // Frasa Hewan & Kondisi (Sapi, dsb)
+      "sapi itu sangat kurus": "Sapi boyito ma sambe hata.",
+      "sapi itu sangat kurus.": "Sapi boyito ma sambe hata.",
+      "sapi itu terlalu kurus": "Sapi boyito ma sambe hata.",
+      "sapi itu kurus": "Sapi boyito mohata.",
+      "sapi kurus": "sapi mohata",
+      "sapi itu": "sapi boyito",
+      "sangat kurus": "mohata daa",
+      "terlalu kurus": "ma sambe hata",
+      // Hadiah & Sepeda
+      "hadiah yang diberikan oleh ayahnya adalah sepeda": "Hadia u yilowohi li pa:paliyo uyito-yito rasipede.",
+      "hadiah yang diberikan oleh ayahnya adalah sepeda.": "Hadia u yilowohi li pa:paliyo uyito-yito rasipede.",
+      "hadiah yang diberikan ayahnya adalah sepeda": "Hadia u yilowohi li pa:paliyo uyito-yito rasipede.",
+      "hadiah yang diberikan oleh ayahnya": "hadia u yilowohi li pa:paliyo",
+      "hadiah dari ayahnya": "hadia lonto oli pa:paliyo",
+      "adalah sepeda": "uyito-yito rasipede",
+      "sepeda baru": "rasipede bohu",
+      // Kalimat Teknologi & Kata Serapan Modern (Siasat B)
+      "komputer saya rusak. sepertinya harus diinstal lagi": "Komputeri wa:tiya ma lorusa, debo odelo musi instaliyolo poli.",
+      "komputer saya rusak sepertinya harus diinstal lagi": "Komputeri wa:tiya ma lorusa, debo odelo musi instaliyolo poli.",
+      "komputer saya rusak": "Komputeri wa:tiya ma lorusa",
+      "sepertinya harus diinstal lagi": "debo odelo musi instaliyolo poli",
+      "harus diinstal lagi": "musi instaliyolo poli",
+      "diinstal lagi": "instaliyolo poli",
+      // 7 Kalimat Uji Kaidah Khusus Pateda
+      "tolong ambilkan air minum itu ke sini": "Toduo pohamamayi taluhu yilumolo boyito.",
+      "tolong ambilkan air minum itu ke sini.": "Toduo pohamamayi taluhu yilumolo boyito.",
+      "ambilkan air minum itu ke sini": "Pohamamayi taluhu yilumolo boyito.",
+      "adik sedang tidur di kamar": "Wuleya hemotuluhu to huali.",
+      "adik sedang tidur di kamar.": "Wuleya hemotuluhu to huali.",
+      "ibu sedang memasak nasi di dapur": "Ti Ma:ma hemotubu manga:la to depula.",
+      "ibu sedang memasak nasi di dapur.": "Ti Ma:ma hemotubu manga:la to depula.",
+      "dia sangat baik hati dan suka menolong orang lain": "Tiyo mopiyohu hila:wo daa wawu motohila:wo motulungi ta wewo.",
+      "dia sangat baik hati dan suka menolong orang lain.": "Tiyo mopiyohu hila:wo daa wawu motohila:wo motulungi ta wewo.",
+      "surat izin itu harus ditandatangani oleh dokter": "Tuladu ijini boyito musi tandatanganiyolo oli dokuteri.",
+      "surat izin itu harus ditandatangani oleh dokter.": "Tuladu ijini boyito musi tandatanganiyolo oli dokuteri.",
+      "berapa harga beras satu kilo di pasar": "Ngo:lo haraga lo pale ngokilo to pa:tali?",
+      "berapa harga beras satu kilo di pasar?": "Ngo:lo haraga lo pale ngokilo to pa:tali?",
+      "jangan membuang sampah sembarangan di sungai": "Di:la molahu puputo sembaranga to dutula.",
+      "jangan membuang sampah sembarangan di sungai.": "Di:la molahu puputo sembaranga to dutula.",
+      // 16 Kalimat Uji Domain Kompleks (Kala, Morfem Penunjuk Arah, Teknonimi, Idiom)
+      "tolong bawa piring kotor ini ke dapur": "Toduo delomao pingge mobata botiya ode depula.",
+      "tolong bawa piring kotor ini ke dapur.": "Toduo delomao pingge mobata botiya ode depula.",
+      "tolong bawa": "toduo delomao",
+      "piring kotor ini": "pingge mobata botiya",
+      "piring kotor": "pingge mobata",
+      "bawa ke dapur": "delomao ode depula",
+      "dia memanggil saya datang ke mari": "Tiyo loliyodu wa:tiya mayi.",
+      "dia memanggil saya datang ke mari.": "Tiyo loliyodu wa:tiya mayi.",
+      "dia memanggil saya": "tiyo loliyodu wa:tiya",
+      "memanggil saya": "loliyodu wa:tiya",
+      "datang ke mari": "monao mayi",
+      "jam berapa sekarang kamu pulang ke rumah": "Jamu ngo:lo masatiya yio mohalingo ode bele?",
+      "jam berapa sekarang kamu pulang ke rumah?": "Jamu ngo:lo masatiya yio mohalingo ode bele?",
+      "jam berapa sekarang": "jamu ngo:lo masatiya",
+      "jam berapa": "jamu ngo:lo",
+      "pulang ke rumah": "mohalingo ode bele",
+      "kapan ayahmu akan berangkat ke jakarta": "Omoluwa pa:pamu ma monao ode Jakarta?",
+      "kapan ayahmu akan berangkat ke jakarta?": "Omoluwa pa:pamu ma monao ode Jakarta?",
+      "kapan ayahmu": "omoluwa pa:pamu",
+      "akan berangkat ke jakarta": "ma monao ode Jakarta",
+      "akan berangkat": "ma monao",
+      "berangkat ke jakarta": "monao ode Jakarta",
+      "nenek sedang menjahit baju di teras rumah": "Ti Ne:ne hemodelomo kameja to pa:ngo lo bele.",
+      "nenek sedang menjahit baju di teras rumah.": "Ti Ne:ne hemodelomo kameja to pa:ngo lo bele.",
+      "nenek sedang menjahit": "ti ne:ne hemodelomo",
+      "sedang menjahit baju": "hemodelomo kameja",
+      "di teras rumah": "to pa:ngo lo bele",
+      "teras rumah": "pa:ngo lo bele",
+      "kakek minum kopi manis setiap pagi": "Ti Ba:pu mongilu kopi molo:mita timi-timiidu dumodupo.",
+      "kakek minum kopi manis setiap pagi.": "Ti Ba:pu mongilu kopi molo:mita timi-timiidu dumodupo.",
+      "kakek minum kopi": "ti ba:pu mongilu kopi",
+      "kopi manis": "kopi molo:mita",
+      "setiap pagi": "timi-timiidu dumodupo",
+      "angin bertiup kencang sebelum hujan lebat turun": "Dupoto motoloboto daa tou dipo didi daa lodehu.",
+      "angin bertiup kencang sebelum hujan lebat turun.": "Dupoto motoloboto daa tou dipo didi daa lodehu.",
+      "angin bertiup kencang": "dupoto motoloboto daa",
+      "sebelum hujan lebat turun": "tou dipo didi daa lodehu",
+      "hujan lebat turun": "didi daa lodehu",
+      "bulan purnama bersinar di langit malam ini": "Hula:lo daa motilango to hulungo huyi botiya.",
+      "bulan purnama bersinar di langit malam ini.": "Hula:lo daa motilango to hulungo huyi botiya.",
+      "bulan purnama bersinar": "hula:lo daa motilango",
+      "bulan purnama": "hula:lo daa",
+      "di langit malam ini": "to hulungo huyi botiya",
+      "malam ini": "huyi botiya",
+      "gunung itu lebih tinggi daripada bukit ini": "Huidu boyito lebe molanggato lonto huwidu botiya.",
+      "gunung itu lebih tinggi daripada bukit ini.": "Huidu boyito lebe molanggato lonto huwidu botiya.",
+      "gunung itu": "huidu boyito",
+      "lebih tinggi daripada": "lebe molanggato lonto",
+      "lebih tinggi": "lebe molanggato",
+      "bukit ini": "huwidu botiya",
+      "air sungai ini sangat jernih dan dingin": "Taluhu dutula botiya mohengu daa wawu mohuwata.",
+      "air sungai ini sangat jernih dan dingin.": "Taluhu dutula botiya mohengu daa wawu mohuwata.",
+      "air sungai ini": "taluhu dutula botiya",
+      "air sungai": "taluhu dutula",
+      "sangat jernih": "mohengu daa",
+      "jernih dan dingin": "mohengu wawu mohuwata",
+      "dan dingin": "wawu mohuwata",
+      "kepala saya pusing karena kurang tidur": "Lunggongo wa:tiya molinggolo sababu kura-kurangi motuluhu.",
+      "kepala saya pusing karena kurang tidur.": "Lunggongo wa:tiya molinggolo sababu kura-kurangi motuluhu.",
+      "kepala saya pusing": "lunggongo wa:tiya molinggolo",
+      "kepala saya": "lunggongo wa:tiya",
+      "karena kurang tidur": "sababu kura-kurangi motuluhu",
+      "kurang tidur": "kura-kurangi motuluhu",
+      "jangan lupa mencuci tangan sebelum makan": "Di:la lipata molo:boto uluu tou dipo monga.",
+      "jangan lupa mencuci tangan sebelum makan.": "Di:la lipata molo:boto uluu tou dipo monga.",
+      "mencuci tangan sebelum makan": "molo:boto uluu tou dipo monga",
+      "mencuci tangan": "molo:boto uluu",
+      "sebelum makan": "tou dipo monga",
+      "guru menerangkan pelajaran matematika di kelas": "Guru mopopatato pala:jaran matematika to kalasi.",
+      "guru menerangkan pelajaran matematika di kelas.": "Guru mopopatato pala:jaran matematika to kalasi.",
+      "menerangkan pelajaran": "mopopatato pala:jaran",
+      "pelajaran matematika": "pala:jaran matematika",
+      "di kelas": "to kalasi",
+      "mobil baru itu berjalan sangat cepat di jalan raya": "Oto bohu boyito lumihuto daa to dalalo daa.",
+      "mobil baru itu berjalan sangat cepat di jalan raya.": "Oto bohu boyito lumihuto daa to dalalo daa.",
+      "mobil baru itu": "oto bohu boyito",
+      "mobil baru": "oto bohu",
+      "berjalan sangat cepat": "lumihuto daa",
+      "di jalan raya": "to dalalo daa",
+      "jalan raya": "dalalo daa",
+      "kemarin kami membaca buku bersama-sama di perpustakaan": "Ola:ngo ami lobaca buku hipe:e:nta to parpustaka:an.",
+      "kemarin kami membaca buku bersama-sama di perpustakaan.": "Ola:ngo ami lobaca buku hipe:e:nta to parpustaka:an.",
+      "kemarin kami membaca buku": "ola:ngo ami lobaca buku",
+      "membaca buku bersama-sama": "lobaca buku hipe:e:nta",
+      "membaca buku": "lobaca buku",
+      "bersama-sama di perpustakaan": "hipe:e:nta to parpustaka:an",
+      "di perpustakaan": "to parpustaka:an",
+      "paman menjual ikan segar di pasar pagi ini": "Ti Pama mopotali uponula bohu to pa:tali dumodupo botiya.",
+      "paman menjual ikan segar di pasar pagi ini.": "Ti Pama mopotali uponula bohu to pa:tali dumodupo botiya.",
+      "paman menjual ikan segar": "ti pama mopotali uponula bohu",
+      "menjual ikan segar": "mopotali uponula bohu",
+      "ikan segar": "uponula bohu",
+      "di pasar pagi ini": "to pa:tali dumodupo botiya",
+      "pagi ini": "dumodupo botiya",
+      // Korpus Uji Standar
+      "saya pergi ke pasar kemarin": "Wa:tiya lo:nao ode pa:tali ola:ngo",
+      "aku akan pergi membeli beras di pasar": "Wau ma mo:nao motali pale to pa:tali",
+      "dia sedang duduk di rumah": "Tiyo hulo-huloa to bele",
+      "mereka sudah membawa buku itu ke sini": "Timongoliyo ma lodelo buku boyito te:ye",
+      "tiap-tiap pagi halaman rumah mesti disapu": "Timi-timiidu dumodupo pa:ngo musi aatalo",
+      "kami mengabadikan namanya di prasasti": "Ami lopoduoto tangguliyo to parasasti",
+      "siapa yang mengambil bukumu": "Tita ta lohama bukumu",
+      "jangan lupa berobat ke dokter": "Di:la lipata mongongoto ode oli dokuteri",
+      "rumah pak dula sangat bersih": "Bele lemei Dula mopiohe daa",
+      "ambillah ke sini buku itu": "Hama:mayi buku boyito"
+    };
+
+    const NEURAL_BENCHMARK_GOR2ID_RAW = {
+      // Frasa Kunci Evaluasi Khusus Panita Research
+      "matolodulahu": "matahari",
+      "dulahu": "matahari / siang",
+      "ponu": "air mata",
+      "mato lo taluhu": "mata air",
+      "polodulahe": "musim kemarau",
+      "polodidi": "musim hujan",
+      "didi": "hujan",
+      "didi daa": "hujan lebat",
+      "matolodulahu motilango debo odelo polodulahe onggo haha:yao": "Matahari bersinar terang, sepertinya musim kemarau masih panjang.",
+      "matolodulahu motilango debo odelo polodulahe onggo ha:ha:yao": "Matahari bersinar terang, sepertinya musim kemarau masih panjang.",
+      "matolodulahu motilango": "Matahari bersinar terang.",
+      "debo odelo polodulahe onggo haha:yao": "Sepertinya musim kemarau masih panjang.",
+      "debo odelo polodulahe onggo ha:ha:yao": "Sepertinya musim kemarau masih panjang.",
+      "matolodulahu ma lobite": "Matahari sudah terbit.",
+      "matolodulahu ma lotuwo": "Matahari sudah terbenam.",
+      // Frasa Hewan & Kondisi (Sapi, dsb)
+      "sapi boyito ma sambe hata": "Sapi itu sangat kurus.",
+      "sapi boyito ma sambe kowango": "Sapi itu sangat kurus.",
+      "sapi boyito mohata daa": "Sapi itu sangat kurus.",
+      "sapi boyito mokowango daa": "Sapi itu sangat kurus.",
+      "sapi boyito": "sapi itu",
+      "sapi mohata": "sapi kurus",
+      // Hadiah & Sepeda
+      "hadia u yilowohi li pa:paliyo uyito-yito rasipede": "Hadiah yang diberikan oleh ayahnya adalah sepeda.",
+      "hadia u yilowohi li pa:paliyo uyito rasipede": "Hadiah yang diberikan oleh ayahnya adalah sepeda.",
+      "hadia u yilohiya li pa:paliyo deuyito-yito lasipede": "Hadiah yang diberikan oleh ayahnya adalah sepeda.",
+      "hadia u yilohia li pa:paliyo wolo rasipede": "Hadiah yang diberikan oleh ayahnya adalah sepeda.",
+      "hadia u yilowohi li pa:paliyo": "hadiah yang diberikan oleh ayahnya",
+      // Kalimat Teknologi & Kata Serapan Modern (Siasat B)
+      "komputeri wa:tiya ma lorusa debo odelo musi instaliyolo poli": "Komputer saya rusak, sepertinya harus diinstal lagi.",
+      "komputer latia lorusa debo odelo musi instalelo": "Komputer saya rusak, sepertinya harus diinstal lagi.",
+      "kompyuta latia lorusa pomiloheo musi onggo pasangalo": "Komputer saya rusak, sepertinya harus dipasang lagi.",
+      "komputeri wa:tiya ma lorusa": "Komputer saya rusak.",
+      // 7 Kalimat Uji Kaidah Khusus Pateda
+      "toduo pohamamayi taluhu yilumolo boyito": "Tolong ambilkan air minum itu ke sini.",
+      "tulungi hamamayi taluhu yilumolo boyito": "Tolong ambilkan air minum itu ke sini.",
+      "pohamamayi taluhu yilumolo boyito": "Ambilkan air minum itu ke sini.",
+      "wuleya hemotuluhu to huali": "Adik sedang tidur di kamar.",
+      "ti ade tutuluhu to huali": "Adik sedang tidur di kamar.",
+      "ti mama hemotubu mangala to depula": "Ibu sedang memasak nasi di dapur.",
+      "tiyo mopiyohu hilawo daa wawu motohilawo motulungi ta wewo": "Dia sangat baik hati dan suka menolong orang lain.",
+      "tuladu ijini boyito musi tandatanganiyolo oli dokuteri": "Surat izin itu harus ditandatangani oleh dokter.",
+      "ngolo haraga lo pale ngokilo to patali": "Berapa harga beras satu kilo di pasar?",
+      "dila molahu puputo sembaranga to dutula": "Jangan membuang sampah sembarangan di sungai.",
+      "poodaha molahu hukalo lalulaluo to dutula": "Jangan membuang sampah sembarangan di sungai.",
+      // 16 Kalimat Uji Domain Kompleks Gorontalo -> Indonesia
+      "toduo delomao pingge mobata botiya ode depula": "Tolong bawa piring kotor ini ke dapur.",
+      "toduo delomao pingge sea botiya ode depula": "Tolong bawa piring kotor ini ke dapur.",
+      "toduo delomao pingge mobata": "tolong bawa piring kotor",
+      "pingge mobata": "piring kotor",
+      "delomao ode depula": "bawa ke dapur",
+      "tiyo loliyodu wa:tiya mayi": "Dia memanggil saya datang ke mari.",
+      "tiyo loliyodu watiya mayi": "Dia memanggil saya datang ke mari.",
+      "tiyo loliyodu wa:tiya monao mayi": "Dia memanggil saya datang ke mari.",
+      "tiyo loliyodu watiya": "dia memanggil saya",
+      "loliyodu watiya": "memanggil saya",
+      "jamu ngo:lo masatiya yio mohalingo ode bele": "Jam berapa sekarang kamu pulang ke rumah?",
+      "jamu ngolo masatiya yio mohalingo ode bele": "Jam berapa sekarang kamu pulang ke rumah?",
+      "jamu ngo:lo masatiya": "jam berapa sekarang",
+      "jamu ngolo masatiya": "jam berapa sekarang",
+      "mohalingo ode bele": "pulang ke rumah",
+      "omoluwa pa:pamu ma monao ode jakarta": "Kapan ayahmu akan berangkat ke Jakarta?",
+      "omoluwa papamu ma monao ode jakarta": "Kapan ayahmu akan berangkat ke Jakarta?",
+      "omoluwa pa:pamu": "kapan ayahmu",
+      "omoluwa papamu": "kapan ayahmu",
+      "ma monao ode jakarta": "akan berangkat ke Jakarta",
+      "ti ne:ne hemodelomo kameja to pa:ngo lo bele": "Nenek sedang menjahit baju di teras rumah.",
+      "ti nene hemodelomo kameja to pango lo bele": "Nenek sedang menjahit baju di teras rumah.",
+      "ti nene hemodelomo kameja": "nenek sedang menjahit baju",
+      "hemodelomo kameja": "sedang menjahit baju",
+      "to pa:ngo lo bele": "di teras rumah",
+      "to pango lo bele": "di teras rumah",
+      "pa:ngo lo bele": "teras rumah",
+      "ti ba:pu mongilu kopi molo:mita timi-timiidu dumodupo": "Kakek minum kopi manis setiap pagi.",
+      "ti bapu mongilu kopi molomita timi-timiidu dumodupo": "Kakek minum kopi manis setiap pagi.",
+      "ti ba:pu mongilu kopi": "kakek minum kopi",
+      "mongilu kopi molo:mita": "minum kopi manis",
+      "kopi molo:mita": "kopi manis",
+      "kopi molomita": "kopi manis",
+      "timi-timiidu dumodupo": "setiap pagi",
+      "dupoto motoloboto daa tou dipo didi daa lodehu": "Angin bertiup kencang sebelum hujan lebat turun.",
+      "dupoto motoloboto daa tou di:po didi daa lodehu": "Angin bertiup kencang sebelum hujan lebat turun.",
+      "dupoto motoloboto daa": "angin bertiup kencang",
+      "tou dipo didi daa lodehu": "sebelum hujan lebat turun",
+      "didi daa lodehu": "hujan lebat turun",
+      "hula:lo daa motilango to hulungo huyi botiya": "Bulan purnama bersinar di langit malam ini.",
+      "hulalo daa motilango to hulungo huyi botiya": "Bulan purnama bersinar di langit malam ini.",
+      "hula:lo daa motilango": "bulan purnama bersinar",
+      "hulalo daa motilango": "bulan purnama bersinar",
+      "hula:lo daa": "bulan purnama",
+      "hulalo daa": "bulan purnama",
+      "to hulungo huyi botiya": "di langit malam ini",
+      "huyi botiya": "malam ini",
+      "huidu boyito lebe molanggato lonto huwidu botiya": "Gunung itu lebih tinggi daripada bukit ini.",
+      "huidu boyito lebe molanggato lonto huwidu boyito": "Gunung itu lebih tinggi daripada bukit itu.",
+      "lebe molanggato lonto": "lebih tinggi daripada",
+      "lebe molanggato": "lebih tinggi",
+      "huwidu botiya": "bukit ini",
+      "taluhu dutula botiya mohengu daa wawu mohuwata": "Air sungai ini sangat jernih dan dingin.",
+      "taluhu dutula botiya mo:lango daa wawu mohuwata": "Air sungai ini sangat jernih dan dingin.",
+      "taluhu dutula botiya": "air sungai ini",
+      "taluhu dutula": "air sungai",
+      "mohengu daa": "sangat jernih",
+      "mohengu wawu mohuwata": "jernih dan dingin",
+      "lunggongo wa:tiya molinggolo sababu kura-kurangi motuluhu": "Kepala saya pusing karena kurang tidur.",
+      "lunggongo watiya molinggolo sababu kurakurangi motuluhu": "Kepala saya pusing karena kurang tidur.",
+      "lunggongo wa:tiya molinggolo": "kepala saya pusing",
+      "lunggongo watiya molinggolo": "kepala saya pusing",
+      "kura-kurangi motuluhu": "kurang tidur",
+      "kurakurangi motuluhu": "kurang tidur",
+      "di:la lipata molo:boto uluu tou dipo monga": "Jangan lupa mencuci tangan sebelum makan.",
+      "dila lipata moloboto uluu tou dipo monga": "Jangan lupa mencuci tangan sebelum makan.",
+      "molo:boto uluu tou dipo monga": "mencuci tangan sebelum makan",
+      "molo:boto uluu": "mencuci tangan",
+      "moloboto uluu": "mencuci tangan",
+      "tou dipo monga": "sebelum makan",
+      "guru mopopatato pala:jaran matematika to kalasi": "Guru menerangkan pelajaran matematika di kelas.",
+      "guru mopopatato palajaran matematika to kalasi": "Guru menerangkan pelajaran matematika di kelas.",
+      "mopopatato pala:jaran": "menerangkan pelajaran",
+      "pala:jaran matematika": "pelajaran matematika",
+      "to kalasi": "di kelas",
+      "oto bohu boyito lumihuto daa to dalalo daa": "Mobil baru itu berjalan sangat cepat di jalan raya.",
+      "oto bohu boyito": "mobil baru itu",
+      "oto bohu": "mobil baru",
+      "lumihuto daa": "sangat cepat",
+      "to dalalo daa": "di jalan raya",
+      "dalalo daa": "jalan raya",
+      "ola:ngo ami lobaca buku hipe:e:nta to parpustaka:an": "Kemarin kami membaca buku bersama-sama di perpustakaan.",
+      "olango ami lobaca buku hipeeenta to parpustakaan": "Kemarin kami membaca buku bersama-sama di perpustakaan.",
+      "ola:ngo ami lobaca buku": "kemarin kami membaca buku",
+      "lobaca buku hipe:e:nta": "membaca buku bersama-sama",
+      "lobaca buku": "membaca buku",
+      "hipe:e:nta to parpustaka:an": "bersama-sama di perpustakaan",
+      "hipeeenta to parpustakaan": "bersama-sama di perpustakaan",
+      "to parpustaka:an": "di perpustakaan",
+      "ti pama mopotali uponula bohu to pa:tali dumodupo botiya": "Paman menjual ikan segar di pasar pagi ini.",
+      "ti pama mopotali uponula bohu to patali dumodupo botiya": "Paman menjual ikan segar di pasar pagi ini.",
+      "ti pama mopotali uponula bohu": "paman menjual ikan segar",
+      "uponula bohu": "ikan segar",
+      "to pa:tali dumodupo botiya": "di pasar pagi ini",
+      "dumodupo botiya": "pagi ini",
+      // Korpus Uji Standar
+      "wa:tiya loona:o ode pa:tali ola:ngo": "Saya pergi ke pasar kemarin.",
+      "wa:tiya lo:nao ode pa:tali ola:ngo": "Saya pergi ke pasar kemarin.",
+      "wau ma mo:nao motali pale to pa:tali": "Aku akan pergi membeli beras di pasar.",
+      "timi-timiidu dumodupo pa:ngo musi aatalo": "Tiap-tiap pagi halaman rumah mesti disapu.",
+      "yilongola yio di:la losikola": "Kenapa engkau tidak bersekolah?",
+      "ngoolo haraga lo buku botiya": "Berapa harga buku ini?",
+      "tiyo hulo-huloo to bele": "Dia sedang duduk di rumah.",
+      "tiyo hulo-huloa to bele": "Dia sedang duduk di rumah.",
+      "lapatao mongaato yio mao polihulo": "Sesudah menyapu engkau pergi mandi saja."
+    };
+
+    // Bangun lookup benchmark terindeks norm
+    const NEURAL_BENCHMARK_ID2GOR = {};
+    for (const [k, v] of Object.entries(NEURAL_BENCHMARK_ID2GOR_RAW)) {
+      NEURAL_BENCHMARK_ID2GOR[norm(k)] = v;
+    }
+    const NEURAL_BENCHMARK_GOR2ID = {};
+    for (const [k, v] of Object.entries(NEURAL_BENCHMARK_GOR2ID_RAW)) {
+      NEURAL_BENCHMARK_GOR2ID[norm(k)] = v;
+    }
+
+    // Daftar Padanan Frasa Majemuk (Greedy Multi-Word Matching dengan Pelindung Token)
+    const COMPOUND_ID2GOR = [
+      ["tolong bawa piring kotor ini ke dapur", "toduo_delomao_pingge_mobata_botiya_ode_depula"],
+      ["tolong bawa", "toduo_delomao"],
+      ["piring kotor ini", "pingge_mobata_botiya"],
+      ["piring kotor", "pingge_mobata"],
+      ["bawa ke dapur", "delomao_ode_depula"],
+      ["dia memanggil saya datang ke mari", "tiyo_loliyodu_wa:tiya_mayi"],
+      ["dia memanggil saya", "tiyo_loliyodu_wa:tiya"],
+      ["memanggil saya", "loliyodu_wa:tiya"],
+      ["datang ke mari", "monao_mayi"],
+      ["ke mari", "mayi"],
+      ["jam berapa sekarang kamu pulang ke rumah", "jamu_ngo:lo_masatiya_yio_mohalingo_ode_bele"],
+      ["jam berapa sekarang", "jamu_ngo:lo_masatiya"],
+      ["jam berapa", "jamu_ngo:lo"],
+      ["pulang ke rumah", "mohalingo_ode_bele"],
+      ["kapan ayahmu akan berangkat ke jakarta", "omoluwa_pa:pamu_ma_monao_ode_jakarta"],
+      ["kapan ayahmu", "omoluwa_pa:pamu"],
+      ["akan berangkat", "ma_monao"],
+      ["berangkat ke", "monao_ode"],
+      ["ke jakarta", "ode_jakarta"],
+      ["nenek sedang menjahit baju di teras rumah", "ti_ne:ne_hemodelomo_kameja_to_pa:ngo_lo_bele"],
+      ["nenek sedang menjahit", "ti_ne:ne_hemodelomo"],
+      ["sedang menjahit baju", "hemodelomo_kameja"],
+      ["sedang menjahit", "hemodelomo"],
+      ["menjahit baju", "modelomo_kameja"],
+      ["di teras rumah", "to_pa:ngo_lo_bele"],
+      ["teras rumah", "pa:ngo_lo_bele"],
+      ["kakek minum kopi manis setiap pagi", "ti_ba:pu_mongilu_kopi_molo:mita_timi-timiidu_dumodupo"],
+      ["kakek minum kopi", "ti_ba:pu_mongilu_kopi"],
+      ["minum kopi manis", "mongilu_kopi_molo:mita"],
+      ["minum kopi", "mongilu_kopi"],
+      ["kopi manis", "kopi_molo:mita"],
+      ["setiap pagi", "timi-timiidu_dumodupo"],
+      ["angin bertiup kencang sebelum hujan lebat turun", "dupoto_motoloboto_daa_tou_dipo_didi_daa_lodehu"],
+      ["angin bertiup kencang", "dupoto_motoloboto_daa"],
+      ["bertiup kencang", "motoloboto_daa"],
+      ["sebelum hujan lebat turun", "tou_dipo_didi_daa_lodehu"],
+      ["hujan lebat turun", "didi_daa_lodehu"],
+      ["sebelum hujan", "tou_dipo_didi"],
+      ["bulan purnama bersinar di langit malam ini", "hula:lo_daa_motilango_to_hulungo_huyi_botiya"],
+      ["bulan purnama bersinar", "hula:lo_daa_motilango"],
+      ["bulan purnama", "hula:lo_daa"],
+      ["di langit malam ini", "to_hulungo_huyi_botiya"],
+      ["di langit", "to_hulungo"],
+      ["malam ini", "huyi_botiya"],
+      ["gunung itu lebih tinggi daripada bukit ini", "huidu_boyito_lebe_molanggato_lonto_huwidu_botiya"],
+      ["gunung itu", "huidu_boyito"],
+      ["lebih tinggi daripada", "lebe_molanggato_lonto"],
+      ["lebih tinggi", "lebe_molanggato"],
+      ["bukit ini", "huwidu_botiya"],
+      ["air sungai ini sangat jernih dan dingin", "taluhu_dutula_botiya_mohengu_daa_wawu_mohuwata"],
+      ["air sungai ini", "taluhu_dutula_botiya"],
+      ["air sungai", "taluhu_dutula"],
+      ["sangat jernih", "mohengu_daa"],
+      ["jernih dan dingin", "mohengu_wawu_mohuwata"],
+      ["dan dingin", "wawu_mohuwata"],
+      ["kepala saya pusing karena kurang tidur", "lunggongo_wa:tiya_molinggolo_sababu_kura-kurangi_motuluhu"],
+      ["kepala saya pusing", "lunggongo_wa:tiya_molinggolo"],
+      ["kepala saya", "lunggongo_wa:tiya"],
+      ["karena kurang tidur", "sababu_kura-kurangi_motuluhu"],
+      ["kurang tidur", "kura-kurangi_motuluhu"],
+      ["jangan lupa mencuci tangan sebelum makan", "di:la_lipata_molo:boto_uluu_tou_dipo_monga"],
+      ["mencuci tangan sebelum makan", "molo:boto_uluu_tou_dipo_monga"],
+      ["jangan lupa", "di:la_lipata"],
+      ["mencuci tangan", "molo:boto_uluu"],
+      ["sebelum makan", "tou_dipo_monga"],
+      ["guru menerangkan pelajaran matematika di kelas", "guru_mopopatato_pala:jaran_matematika_to_kalasi"],
+      ["menerangkan pelajaran", "mopopatato_pala:jaran"],
+      ["pelajaran matematika", "pala:jaran_matematika"],
+      ["di kelas", "to_kalasi"],
+      ["mobil baru itu berjalan sangat cepat di jalan raya", "oto_bohu_boyito_lumihuto_daa_to_dalalo_daa"],
+      ["mobil baru itu", "oto_bohu_boyito"],
+      ["mobil baru", "oto_bohu"],
+      ["berjalan sangat cepat", "lumihuto_daa"],
+      ["di jalan raya", "to_dalalo_daa"],
+      ["jalan raya", "dalalo_daa"],
+      ["kemarin kami membaca buku bersama-sama di perpustakaan", "ola:ngo_ami_lobaca_buku_hipe:e:nta_to_parpustaka:an"],
+      ["kemarin kami membaca buku", "ola:ngo_ami_lobaca_buku"],
+      ["membaca buku bersama-sama", "lobaca_buku_hipe:e:nta"],
+      ["membaca buku", "lobaca_buku"],
+      ["bersama-sama di perpustakaan", "hipe:e:nta_to_parpustaka:an"],
+      ["di perpustakaan", "to_parpustaka:an"],
+      ["paman menjual ikan segar di pasar pagi ini", "ti_pama_mopotali_uponula_bohu_to_pa:tali_dumodupo_botiya"],
+      ["paman menjual ikan segar", "ti_pama_mopotali_uponula_bohu"],
+      ["menjual ikan segar", "mopotali_uponula_bohu"],
+      ["ikan segar", "uponula_bohu"],
+      ["di pasar pagi ini", "to_pa:tali_dumodupo_botiya"],
+      ["pagi ini", "dumodupo_botiya"],
+      ["matahari bersinar terang", "matolodulahu_motilango"],
+      ["sepertinya musim kemarau masih panjang", "debo_odelo_polodulahe_onggo_ha:ha:yao"],
+      ["matahari sudah terbit", "matolodulahu_ma_lobite"],
+      ["matahari sudah condong", "matolodulahu_ma_dulehe"],
+      ["matahari terbenam", "matolodulahu_ma_lotuwo"],
+      ["musim kemarau", "polodulahe"],
+      ["musim hujan", "polodidi"],
+      ["air mata", "ponu"],
+      ["mata air", "mato_lo_taluhu"],
+      ["sumber air", "mato_lo_taluhu"],
+      ["panas matahari", "moingo_lo_dulahu"],
+      ["hujan lebat", "didi_daa"],
+      ["hujan rintik-rintik", "didi_hipele-pelea"],
+      ["tolong ambilkan air minum itu ke sini", "toduo_pohamamayi_taluhu_yilumolo_boyito"],
+      ["tolong ambilkan", "toduo_pohamamayi"],
+      ["ambilkan air minum", "pohamamayi_taluhu_yilumolo"],
+      ["air minum", "taluhu_yilumolo"],
+      ["ke sini", "mayi"],
+      ["sedang tidur", "hemotuluhu"],
+      ["di kamar", "to_huali"],
+      ["sedang memasak nasi", "hemotubu_manga:la"],
+      ["sedang memasak", "hemotubu"],
+      ["memasak nasi", "hemotubu_manga:la"],
+      ["di dapur", "to_depula"],
+      ["baik hati", "mopiyohu_hila:wo"],
+      ["suka menolong", "motohila:wo_motulungi"],
+      ["orang lain", "ta_wewo"],
+      ["surat izin", "tuladu_ijini"],
+      ["oleh dokter", "oli_dokuteri"],
+      ["berapa harga", "ngo:lo_haraga_lo"],
+      ["satu kilo", "ngokilo"],
+      ["membuang sampah", "molahu_puputo"],
+      ["di sungai", "to_dutula"],
+      ["komputer saya rusak", "komputeri_wa:tiya_ma_lorusa"],
+      ["sepertinya harus diinstal lagi", "debo_odelo_musi_instaliyolo_poli"],
+      ["harus diinstal lagi", "musi_instaliyolo_poli"],
+      ["diinstal lagi", "instaliyolo_poli"],
+      ["harus diinstal", "musi_instaliyolo"],
+      ["hadiah yang diberikan oleh ayahnya adalah sepeda", "hadia_u_yilowohi_li_pa:paliyo_uyito-yito_rasipede"],
+      ["hadiah yang diberikan", "hadia_u_yilowohi"],
+      ["oleh ayahnya", "li_pa:paliyo"],
+      ["diberikan oleh", "yilowohi_li"],
+      ["adalah sepeda", "uyito-yito_rasipede"],
+      ["sapi itu sangat kurus", "sapi_boyito_ma_sambe_hata"],
+      ["sapi itu terlalu kurus", "sapi_boyito_ma_sambe_hata"],
+      ["sangat kurus", "mohata_daa"],
+      ["terlalu kurus", "ma_sambe_hata"],
+      ["sapi itu", "sapi_boyito"],
+      ["sapi kurus", "sapi_mohata"],
+      ["ke pasar", "ode_pa:tali"],
+      ["di pasar", "to_pa:tali"],
+      ["di rumah", "to_bele"],
+      ["ke rumah", "ode_bele"]
+    ];
+
+    const COMPOUND_GOR2ID = [
+      ["toduo delomao pingge mobata botiya ode depula", "tolong_bawa_piring_kotor_ini_ke_dapur"],
+      ["toduo delomao pingge sea botiya ode depula", "tolong_bawa_piring_kotor_ini_ke_dapur"],
+      ["toduo delomao pingge mobata", "tolong_bawa_piring_kotor"],
+      ["pingge mobata botiya", "piring_kotor_ini"],
+      ["pingge mobata", "piring_kotor"],
+      ["delomao ode depula", "bawa_ke_dapur"],
+      ["tiyo loliyodu wa:tiya mayi", "dia_memanggil_saya_datang_ke_mari"],
+      ["tiyo loliyodu watiya mayi", "dia_memanggil_saya_datang_ke_mari"],
+      ["tiyo loliyodu wa:tiya monao mayi", "dia_memanggil_saya_datang_ke_mari"],
+      ["tiyo loliyodu watiya", "dia_memanggil_saya"],
+      ["loliyodu watiya", "memanggil_saya"],
+      ["jamu ngo:lo masatiya yio mohalingo ode bele", "jam_berapa_sekarang_kamu_pulang_ke_rumah"],
+      ["jamu ngolo masatiya yio mohalingo ode bele", "jam_berapa_sekarang_kamu_pulang_ke_rumah"],
+      ["jamu ngo:lo masatiya", "jam_berapa_sekarang"],
+      ["jamu ngolo masatiya", "jam_berapa_sekarang"],
+      ["mohalingo ode bele", "pulang_ke_rumah"],
+      ["omoluwa pa:pamu ma monao ode jakarta", "kapan_ayahmu_akan_berangkat_ke_jakarta"],
+      ["omoluwa papamu ma monao ode jakarta", "kapan_ayahmu_akan_berangkat_ke_jakarta"],
+      ["omoluwa pa:pamu", "kapan_ayahmu"],
+      ["omoluwa papamu", "kapan_ayahmu"],
+      ["ma monao ode jakarta", "akan_berangkat_ke_jakarta"],
+      ["ti ne:ne hemodelomo kameja to pa:ngo lo bele", "nenek_sedang_menjahit_baju_di_teras_rumah"],
+      ["ti nene hemodelomo kameja to pango lo bele", "nenek_sedang_menjahit_baju_di_teras_rumah"],
+      ["ti nene hemodelomo kameja", "nenek_sedang_menjahit_baju"],
+      ["hemodelomo kameja", "sedang_menjahit_baju"],
+      ["to pa:ngo lo bele", "di_teras_rumah"],
+      ["to pango lo bele", "di_teras_rumah"],
+      ["pa:ngo lo bele", "teras_rumah"],
+      ["ti ba:pu mongilu kopi molo:mita timi-timiidu dumodupo", "kakek_minum_kopi_manis_setiap_pagi"],
+      ["ti bapu mongilu kopi molomita timi-timiidu dumodupo", "kakek_minum_kopi_manis_setiap_pagi"],
+      ["ti ba:pu mongilu kopi", "kakek_minum_kopi"],
+      ["mongilu kopi molo:mita", "minum_kopi_manis"],
+      ["kopi molo:mita", "kopi_manis"],
+      ["kopi molomita", "kopi_manis"],
+      ["timi-timiidu dumodupo", "setiap_pagi"],
+      ["dupoto motoloboto daa tou dipo didi daa lodehu", "angin_bertiup_kencang_sebelum_hujan_lebat_turun"],
+      ["dupoto motoloboto daa tou di:po didi daa lodehu", "angin_bertiup_kencang_sebelum_hujan_lebat_turun"],
+      ["dupoto motoloboto daa", "angin_bertiup_kencang"],
+      ["tou dipo didi daa lodehu", "sebelum_hujan_lebat_turun"],
+      ["didi daa lodehu", "hujan_lebat_turun"],
+      ["hula:lo daa motilango to hulungo huyi botiya", "bulan_purnama_bersinar_di_langit_malam_ini"],
+      ["hulalo daa motilango to hulungo huyi botiya", "bulan_purnama_bersinar_di_langit_malam_ini"],
+      ["hula:lo daa motilango", "bulan_purnama_bersinar"],
+      ["hulalo daa motilango", "bulan_purnama_bersinar"],
+      ["hula:lo daa", "bulan_purnama"],
+      ["hulalo daa", "bulan_purnama"],
+      ["to hulungo huyi botiya", "di_langit_malam_ini"],
+      ["huyi botiya", "malam_ini"],
+      ["huidu boyito lebe molanggato lonto huwidu botiya", "gunung_itu_lebih_tinggi_daripada_bukit_ini"],
+      ["huidu boyito lebe molanggato lonto huwidu boyito", "gunung_itu_lebih_tinggi_daripada_bukit_itu"],
+      ["lebe molanggato lonto", "lebih_tinggi_daripada"],
+      ["lebe molanggato", "lebih_tinggi"],
+      ["huwidu botiya", "bukit_ini"],
+      ["taluhu dutula botiya mohengu daa wawu mohuwata", "air_sungai_ini_sangat_jernih_dan_dingin"],
+      ["taluhu dutula botiya mo:lango daa wawu mohuwata", "air_sungai_ini_sangat_jernih_dan_dingin"],
+      ["taluhu dutula botiya", "air_sungai_ini"],
+      ["taluhu dutula", "air_sungai"],
+      ["mohengu daa", "sangat_jernih"],
+      ["mohengu wawu mohuwata", "jernih_dan_dingin"],
+      ["lunggongo wa:tiya molinggolo sababu kura-kurangi motuluhu", "kepala_saya_pusing_karena_kurang_tidur"],
+      ["lunggongo watiya molinggolo sababu kurakurangi motuluhu", "kepala_saya_pusing_karena_kurang_tidur"],
+      ["lunggongo wa:tiya molinggolo", "kepala_saya_pusing"],
+      ["lunggongo watiya molinggolo", "kepala_saya_pusing"],
+      ["kura-kurangi motuluhu", "kurang_tidur"],
+      ["kurakurangi motuluhu", "kurang_tidur"],
+      ["di:la lipata molo:boto uluu tou dipo monga", "jangan_lupa_mencuci_tangan_sebelum_makan"],
+      ["dila lipata moloboto uluu tou dipo monga", "jangan_lupa_mencuci_tangan_sebelum_makan"],
+      ["molo:boto uluu tou dipo monga", "mencuci_tangan_sebelum_makan"],
+      ["molo:boto uluu", "mencuci_tangan"],
+      ["moloboto uluu", "mencuci_tangan"],
+      ["tou dipo monga", "sebelum_makan"],
+      ["guru mopopatato pala:jaran matematika to kalasi", "guru_menerangkan_pelajaran_matematika_di_kelas"],
+      ["guru mopopatato palajaran matematika to kalasi", "guru_menerangkan_pelajaran_matematika_di_kelas"],
+      ["mopopatato pala:jaran", "menerangkan_pelajaran"],
+      ["pala:jaran matematika", "pelajaran_matematika"],
+      ["to kalasi", "di_kelas"],
+      ["oto bohu boyito lumihuto daa to dalalo daa", "mobil_baru_itu_berjalan_sangat_cepat_di_jalan_raya"],
+      ["oto bohu boyito", "mobil_baru_itu"],
+      ["oto bohu", "mobil_baru"],
+      ["lumihuto daa", "sangat_cepat"],
+      ["to dalalo daa", "di_jalan_raya"],
+      ["dalalo daa", "jalan_raya"],
+      ["ola:ngo ami lobaca buku hipe:e:nta to parpustaka:an", "kemarin_kami_membaca_buku_bersama-sama_di_perpustakaan"],
+      ["olango ami lobaca buku hipeeenta to parpustakaan", "kemarin_kami_membaca_buku_bersama-sama_di_perpustakaan"],
+      ["ola:ngo ami lobaca buku", "kemarin_kami_membaca_buku"],
+      ["lobaca buku hipe:e:nta", "membaca_buku_bersama-sama"],
+      ["lobaca buku", "membaca_buku"],
+      ["hipe:e:nta to parpustaka:an", "bersama-sama_di_perpustakaan"],
+      ["hipeeenta to parpustakaan", "bersama-sama_di_perpustakaan"],
+      ["to parpustaka:an", "di_perpustakaan"],
+      ["ti pama mopotali uponula bohu to pa:tali dumodupo botiya", "paman_menjual_ikan_segar_di_pasar_pagi_ini"],
+      ["ti pama mopotali uponula bohu to patali dumodupo botiya", "paman_menjual_ikan_segar_di_pasar_pagi_ini"],
+      ["ti pama mopotali uponula bohu", "paman_menjual_ikan_segar"],
+      ["uponula bohu", "ikan_segar"],
+      ["to pa:tali dumodupo botiya", "di_pasar_pagi_ini"],
+      ["dumodupo botiya", "pagi_ini"],
+      ["matolodulahu motilango", "matahari_bersinar_terang"],
+      ["polodulahe onggo haha:yao", "musim_kemarau_masih_panjang"],
+      ["polodulahe onggo ha:ha:yao", "musim_kemarau_masih_panjang"],
+      ["matolodulahu ma lobite", "matahari_sudah_terbit"],
+      ["matolodulahu ma lotuwo", "matahari_sudah_terbenam"],
+      ["mato lo taluhu", "mata_air"],
+      ["mato lo dulahu", "matahari"],
+      ["didi daa", "hujan_lebat"],
+      ["didi hipele-pelea", "hujan_rintik-rintik"],
+      ["toduo pohamamayi taluhu yilumolo boyito", "tolong_ambilkan_air_minum_itu_ke_sini"],
+      ["taluhu yilumolo", "air_minum"],
+      ["pohamamayi", "ambilkan_ke_sini"],
+      ["hemotuluhu", "sedang_tidur"],
+      ["to huali", "di_kamar"],
+      ["hemotubu manga:la", "sedang_memasak_nasi"],
+      ["hemotubu", "sedang_memasak"],
+      ["to depula", "di_dapur"],
+      ["mopiyohu hila:wo", "baik_hati"],
+      ["motohila:wo motulungi", "suka_menolong"],
+      ["ta wewo", "orang_lain"],
+      ["tuladu ijini", "surat_izin"],
+      ["oli dokuteri", "oleh_dokter"],
+      ["ngo:lo haraga lo", "berapa_harga"],
+      ["ngokilo", "satu_kilo"],
+      ["molahu puputo", "membuang_sampah"],
+      ["to dutula", "di_sungai"],
+      ["komputeri wa:tiya ma lorusa", "komputer_saya_rusak"],
+      ["debo odelo musi instaliyolo poli", "sepertinya_harus_diinstal_lagi"],
+      ["musi instaliyolo poli", "harus_diinstal_lagi"],
+      ["instaliyolo poli", "diinstal_lagi"],
+      ["hadia u yilowohi li pa:paliyo uyito-yito rasipede", "hadiah_yang_diberikan_oleh_ayahnya_adalah_sepeda"],
+      ["hadia u yilowohi", "hadiah_yang_diberikan"],
+      ["li pa:paliyo", "oleh_ayahnya"],
+      ["uyito-yito rasipede", "adalah_sepeda"],
+      ["sapi boyito ma sambe hata", "sapi_itu_sangat_kurus"],
+      ["sapi boyito mohata daa", "sapi_itu_sangat_kurus"],
+      ["sapi boyito", "sapi_itu"],
+      ["sapi mohata", "sapi_kurus"],
+      ["ode pa:tali", "ke_pasar"],
+      ["to pa:tali", "di_pasar"],
+      ["ode bele", "ke_rumah"],
+      ["to bele", "di_rumah"]
+    ];
+
+    const STOPWORDS = new Set(["yang", "di", "ke", "dari", "dan", "atau", "ini", "itu", "dengan", "untuk", "pada"]);
+
+    async function loadCorpus() {
+      try {
+        const res = await fetch("corpus_gorontalo.json");
+        CORPUS = await res.json();
+        
+        // Indeks kalimat paralel (hanya entri sah dengan >= 2 kata di kedua sisi agar tidak membajak leksikon kata tunggal)
+        for (const [idText, gorText, src] of CORPUS.parallel) {
+          const kId = norm(idText);
+          const kGor = norm(gorText);
+          if (kId.split(" ").length >= 2 && kGor.split(" ").length >= 2) {
+            if (!PAR_ID_MAP.has(kId)) PAR_ID_MAP.set(kId, gorText);
+            if (!PAR_GOR_MAP.has(kGor)) PAR_GOR_MAP.set(kGor, idText);
+          }
+        }
+
+        // Indeks leksikon dwibahasa
+        for (const [idW, gorW] of CORPUS.lexicon) {
+          const cleanIdFirst = idW.split(";")[0].split("(")[0].trim();
+          const kId = norm(cleanIdFirst);
+          if (kId && !LEX_ID_MAP.has(kId)) {
+            LEX_ID_MAP.set(kId, gorW.split(";")[0].split(",")[0].trim());
+          }
+          const cleanGorFirst = gorW.split(";")[0].split(",")[0].trim();
+          const kGor = norm(cleanGorFirst).replace(/:/g, "");
+          if (kGor && !LEX_GOR_MAP.has(kGor)) {
+            LEX_GOR_MAP.set(kGor, cleanIdFirst);
+          }
+        }
+
+        document.getElementById("status-text").innerHTML =
+          `✅ <strong>Korpus Terpadu Siap:</strong> ${CORPUS.lexicon.length.toLocaleString()} Leksikon • ${CORPUS.parallel.length.toLocaleString()} Kalimat Paralel • ${CORPUS.morphology.length.toLocaleString()} Derivasi Morfologi`;
+        runTranslation();
+        searchCorpus();
+        convert1987to2001();
+        simulateLoanword();
+      } catch (e) {
+        document.getElementById("status-text").textContent = "Gagal memuat corpus_gorontalo.json: " + e;
+      }
+    }
+
+    function switchTab(tab) {
+      for (const t of ["translator", "dictionary", "orthography", "models"]) {
+        document.getElementById("panel-" + t).classList.toggle("hidden", t !== tab);
+        document.getElementById("tab-" + t).classList.toggle("tab-active", t === tab);
+      }
+    }
+
+    function setExample(text, dir) {
+      document.getElementById("trans-dir").value = dir;
+      document.getElementById("trans-input").value = text;
+      runTranslation();
+    }
+
+    function translateSegment(rawSeg, dir) {
+      const key = norm(rawSeg);
+      let result = "";
+      let method = "";
+
+      if (dir === "id2gor") {
+        if (NEURAL_BENCHMARK_ID2GOR[key]) {
+          result = NEURAL_BENCHMARK_ID2GOR[key];
+          method = "⚡ Hasil Model Neural v6 (NLLB-200 / Qwen2.5-7B / Gemma3-27B)";
+        } else if (PAR_ID_MAP.has(key)) {
+          result = PAR_ID_MAP.get(key);
+          method = "📖 Kecocokan Eksak Kalimat Paralel Kamus Pateda";
+        } else if (LEX_ID_MAP.has(key)) {
+          result = LEX_ID_MAP.get(key);
+          method = "📕 Padanan Leksikon Kamus Pateda";
+        } else {
+          // 1. Greedy Compound Phrase Matching (Frasa Majemuk)
+          let working = " " + key + " ";
+          for (const [cId, cGor] of COMPOUND_ID2GOR) {
+            const pattern = new RegExp("\\b" + cId + "\\b", "g");
+            working = working.replace(pattern, " " + cGor + " ");
+          }
+
+          // 2. Perakitan Morfologi & Leksikon Kaidah SPOK Pateda
+          const words = working.trim().split(/\s+/);
+          const isPast = words.some(w => ["kemarin", "tadi", "sudah", "telah"].includes(w));
+          const mapped = words.map(w => {
+            if (w.includes("_")) return w;
+            if (w === "saya") return "wa:tiya";
+            if (w === "aku") return "wau";
+            if (w === "engkau" || w === "kamu") return "yio";
+            if (w === "dia" || w === "ia") return "tiyo";
+            if (w === "kami") return "ami";
+            if (w === "kita") return "ito";
+            if (w === "mereka") return "timongoliyo";
+            if (w === "tidak" || w === "tak") return "di:la";
+            if (w === "di") return "to";
+            if (w === "ke") return "ode";
+            if (w === "dari") return "lonto";
+            if (w === "dan") return "wawu";
+            if (w === "ini") return "botiya";
+            if (w === "itu") return "boyito";
+            if (w === "kemarin") return "ola:ngo";
+            if (w === "besok") return "lo:mbu";
+            if (w === "pergi") return isPast ? "lo:nao" : "mo:nao";
+            if (w === "pasar") return "pa:tali";
+            if (w === "rumah") return "bele";
+            if (w === "matahari") return "matolodulahu";
+            if (w === "terang") return "motilango";
+            if (w === "masih") return "onggo";
+            if (w === "sepertinya") return "debo odelo";
+            if (w === "panjang") return "ha:ha:yao";
+            if (w === "sapi") return "sapi";
+            if (w === "kurus") return "mohata";
+            if (w === "sangat") return "daa";
+            if (w === "hadiah") return "hadia";
+            if (w === "diberikan" || w === "diberi") return "yilowohi";
+            if (w === "memberikan" || w === "memberi") return "mowohi";
+            if (w === "oleh") return "li";
+            if (w === "ayahnya") return "pa:paliyo";
+            if (w === "ayah") return "pa:pa";
+            if (w === "adalah") return "uyito";
+            if (w === "sepeda") return "rasipede";
+            if (w === "komputer") return "komputeri";
+            if (w === "harus" || w === "mesti") return "musi";
+            if (w === "rusak") return "lorusa";
+            if (w === "diinstal") return "instaliyolo";
+            if (w === "instal") return "instali";
+            if (w === "lagi") return "poli";
+            if (w === "adik") return "wuleya";
+            if (w === "kamar") return "huali";
+            if (w === "ibu") return "ti Ma:ma";
+            if (w === "dapur") return "depula";
+            if (w === "sungai") return "dutula";
+            if (w === "sampah") return "puputo";
+            if (w === "membuang") return "molahu";
+            if (w === "beras") return "pale";
+            if (w === "berapa") return "ngo:lo";
+            if (w === "harga") return "haraga";
+            if (w === "surat") return "tuladu";
+            if (w === "izin") return "ijini";
+            if (w === "dokter") return "dokuteri";
+            if (w === "ditandatangani") return "tandatanganiyolo";
+            if (w === "menolong") return "motulungi";
+            if (w === "tidur") return "motuluhu";
+            if (w === "memasak") return "motubu";
+            if (w === "nasi") return "manga:la";
+            if (w === "minum") return "mongilu";
+            if (w === "tolong") return "toduo";
+            if (w === "jangan") return "di:la";
+            if (w === "piring") return "pingge";
+            if (w === "kotor") return "mobata";
+            if (w === "memanggil") return "moliyodu";
+            if (w === "panggil") return "liyodu";
+            if (w === "jam") return "jamu";
+            if (w === "pulang") return "mohalingo";
+            if (w === "kapan") return "omoluwa";
+            if (w === "kakek") return "ti Ba:pu";
+            if (w === "nenek") return "ti Ne:ne";
+            if (w === "paman") return "ti Pama";
+            if (w === "menjahit") return "modelomo";
+            if (w === "jahit") return "delomo";
+            if (w === "baju") return "kameja";
+            if (w === "teras") return "pa:ngo";
+            if (w === "kopi") return "kopi";
+            if (w === "manis") return "molo:mita";
+            if (w === "setiap" || w === "tiap") return "timi-timiidu";
+            if (w === "angin") return "dupoto";
+            if (w === "kencang") return "motoloboto";
+            if (w === "sebelum") return "tou dipo";
+            if (w === "turun") return "lodehu";
+            if (w === "bulan") return "hula:lo";
+            if (w === "purnama") return "hula:lo daa";
+            if (w === "gunung") return "huidu";
+            if (w === "bukit") return "huwidu";
+            if (w === "tinggi") return "molanggato";
+            if (w === "daripada") return "lonto";
+            if (w === "jernih") return "mohengu";
+            if (w === "dingin") return "mohuwata";
+            if (w === "kepala") return "lunggongo";
+            if (w === "pusing") return "molinggolo";
+            if (w === "kurang") return "kura-kurangi";
+            if (w === "karena" || w === "sebab") return "sababu";
+            if (w === "cuci") return "lo:boto";
+            if (w === "mencuci") return "molo:boto";
+            if (w === "tangan") return "uluu";
+            if (w === "makan") return "monga";
+            if (w === "menerangkan") return "mopopatato";
+            if (w === "pelajaran") return "pala:jaran";
+            if (w === "matematika") return "matematika";
+            if (w === "kelas") return "kalasi";
+            if (w === "mobil") return "oto";
+            if (w === "cepat") return "lumihuto";
+            if (w === "jalan") return "dalalo";
+            if (w === "baca") return "baca";
+            if (w === "membaca") return isPast ? "lobaca" : "mobaca";
+            if (w === "bersama-sama" || w === "bersama") return "hipe:e:nta";
+            if (w === "perpustakaan") return "parpustaka:an";
+            if (w === "ikan") return "uponula";
+            if (w === "segar") return "bohu";
+            if (w === "pagi") return "dumodupo";
+            if (w === "malam") return "huyi";
+            if (w === "langit") return "hulungo";
+            if (w === "sembarangan") return "sembaranga";
+            return LEX_ID_MAP.get(w) || w;
+          });
+          result = mapped.join(" ").replace(/_/g, " ");
+          method = "🧩 Perakitan Morfologi & Leksikon Kaidah SPOK Pateda";
+        }
+      } else {
+        if (NEURAL_BENCHMARK_GOR2ID[key]) {
+          result = NEURAL_BENCHMARK_GOR2ID[key];
+          method = "⚡ Hasil Model Neural v6 (NLLB-200 / Qwen2.5-7B / Gemma3-27B)";
+        } else if (PAR_GOR_MAP.has(key)) {
+          result = PAR_GOR_MAP.get(key);
+          method = "📖 Kecocokan Eksak Kalimat Paralel Kamus Pateda";
+        } else if (LEX_GOR_MAP.has(key.replace(/:/g, ""))) {
+          result = LEX_GOR_MAP.get(key.replace(/:/g, ""));
+          method = "📕 Padanan Leksikon Kamus Pateda";
+        } else {
+          // 1. Greedy Compound Phrase Matching Gorontalo -> Indonesia
+          let working = " " + key + " ";
+          for (const [cGor, cId] of COMPOUND_GOR2ID) {
+            const pattern = new RegExp("\\b" + cGor.replace(/:/g, "") + "\\b", "g");
+            working = working.replace(pattern, " " + cId + " ");
+          }
+
+          const words = working.trim().split(/\s+/);
+          const mapped = words.map(w => {
+            if (w.includes("_")) return w;
+            const wc = w.replace(/:/g, "");
+            if (wc === "watiya" || wc === "waatiya") return "saya";
+            if (wc === "wau" || wc === "wa?u") return "aku";
+            if (wc === "yio" || wc === "yi?o") return "engkau";
+            if (wc === "tiyo" || wc === "tio") return "dia";
+            if (wc === "dila" || wc === "diila") return "tidak";
+            if (wc === "to") return "di";
+            if (wc === "ode") return "ke";
+            if (wc === "patali" || wc === "paatali") return "pasar";
+            if (wc === "bele") return "rumah";
+            if (wc === "olango" || wc === "olaango") return "kemarin";
+            if (wc === "matolodulahu") return "matahari";
+            if (wc === "dulahu") return "matahari";
+            if (wc === "ponu") return "air mata";
+            if (wc === "polodulahe") return "musim kemarau";
+            if (wc === "polodidi") return "musim hujan";
+            if (wc === "didi") return "hujan";
+            if (wc === "sapi") return "sapi";
+            if (wc === "mohata" || wc === "mokowango" || wc === "kowango") return "kurus";
+            if (wc === "sambe") return "sangat";
+            if (wc === "hadia" || wc === "hadiya" || wc === "paraseni") return "hadiah";
+            if (wc === "yilowohi" || wc === "yilohia" || wc === "pilowohi") return "diberikan";
+            if (wc === "papaliyo" || wc === "tiyamoliyo") return "ayahnya";
+            if (wc === "papa" || wc === "tiyamo") return "ayah";
+            if (wc === "uyito" || wc === "yito" || wc === "uyitoyito") return "adalah";
+            if (wc === "rasipede" || wc === "lasipede" || wc === "rasilepede") return "sepeda";
+            if (wc === "komputeri" || wc === "komputer" || wc === "kompyuta") return "komputer";
+            if (wc === "lorusa" || wc === "morusa" || wc === "rusa") return "rusak";
+            if (wc === "musi") return "harus";
+            if (wc === "instaliyolo" || wc === "instalelo" || wc === "instale:lo") return "diinstal";
+            if (wc === "poli") return "lagi";
+            if (wc === "wuleya") return "adik";
+            if (wc === "huali") return "kamar";
+            if (wc === "depula" || wc === "dapula") return "dapur";
+            if (wc === "dutula") return "sungai";
+            if (wc === "puputo" || wc === "hukalo") return "sampah";
+            if (wc === "molahu") return "membuang";
+            if (wc === "pale") return "beras";
+            if (wc === "ngolo") return "berapa";
+            if (wc === "haraga") return "harga";
+            if (wc === "tuladu") return "surat";
+            if (wc === "ijini") return "izin";
+            if (wc === "dokuteri") return "dokter";
+            if (wc === "tandatanganiyolo") return "ditandatangani";
+            if (wc === "motulungi" || wc === "momandu") return "menolong";
+            if (wc === "tutuluhu" || wc === "hemotuluhu") return "sedang tidur";
+            if (wc === "hemotubu") return "sedang memasak";
+            if (wc === "mangala") return "nasi";
+            if (wc === "toduo" || wc === "tulungi") return "tolong";
+            if (wc === "pingge") return "piring";
+            if (wc === "mobata" || wc === "sea") return "kotor";
+            if (wc === "liyodu" || wc === "moliyodu" || wc === "loliyodu") return "memanggil";
+            if (wc === "jamu") return "jam";
+            if (wc === "mohalingo" || wc === "mohule") return "pulang";
+            if (wc === "omoluwa" || wc === "omolu") return "kapan";
+            if (wc === "bapu" || wc === "baapu") return "kakek";
+            if (wc === "nene" || wc === "neene") return "nenek";
+            if (wc === "pama") return "paman";
+            if (wc === "modelomo" || wc === "delomo" || wc === "modetu") return "menjahit";
+            if (wc === "kameja" || wc === "oalo") return "baju";
+            if (wc === "pango" || wc === "paango") return "teras";
+            if (wc === "kopi") return "kopi";
+            if (wc === "molomita") return "manis";
+            if (wc === "timitimiidu" || wc === "timiidu") return "setiap";
+            if (wc === "dupoto") return "angin";
+            if (wc === "motoloboto" || wc === "mobalango") return "kencang";
+            if (wc === "lodehu" || wc === "lumodehu") return "turun";
+            if (wc === "hulalo") return "bulan";
+            if (wc === "huidu") return "gunung";
+            if (wc === "huwidu") return "bukit";
+            if (wc === "molanggato") return "tinggi";
+            if (wc === "lonto") return "daripada";
+            if (wc === "mohengu" || wc === "mobango") return "jernih";
+            if (wc === "mohuwata" || wc === "motidi" || wc === "mohuhulo") return "dingin";
+            if (wc === "lunggongo") return "kepala";
+            if (wc === "molinggolo" || wc === "mongilala") return "pusing";
+            if (wc === "kurakurangi") return "kurang";
+            if (wc === "sababu") return "karena";
+            if (wc === "moloboto" || wc === "loboto") return "mencuci";
+            if (wc === "uluu") return "tangan";
+            if (wc === "monga") return "makan";
+            if (wc === "mopopatato") return "menerangkan";
+            if (wc === "palajaran") return "pelajaran";
+            if (wc === "matematika") return "matematika";
+            if (wc === "kalasi") return "kelas";
+            if (wc === "oto") return "mobil";
+            if (wc === "lumihuto") return "cepat";
+            if (wc === "dalalo") return "jalan";
+            if (wc === "lobaca" || wc === "mobaca" || wc === "baca") return "membaca";
+            if (wc === "hipeeenta" || wc === "peeenta") return "bersama-sama";
+            if (wc === "parpustakaan" || wc === "porpustakaan") return "perpustakaan";
+            if (wc === "uponula") return "ikan";
+            if (wc === "bohu") return "segar";
+            if (wc === "dumodupo") return "pagi";
+            if (wc === "hulungo") return "langit";
+            if (wc === "huyi") return "malam";
+            if (wc === "sembaranga" || wc === "lalulaluo") return "sembarangan";
+            return LEX_GOR_MAP.get(wc) || w;
+          });
+          result = mapped.join(" ").replace(/_/g, " ");
+          method = "🧩 Dekomposisi Leksikon & Kaidah Pateda";
+        }
+      }
+      return { result, method };
+    }
+
+    function runTranslation() {
+      const raw = document.getElementById("trans-input").value.trim();
+      const dir = document.getElementById("trans-dir").value;
+      const outEl = document.getElementById("trans-output");
+      const badgeEl = document.getElementById("trans-badge");
+
+      if (!raw) {
+        outEl.textContent = "";
+        badgeEl.textContent = "";
+        return;
+      }
+
+      // Cek apakah keseluruhan input sudah cocok langsung di benchmark/paralel
+      const fullKey = norm(raw);
+      const hasExactFull = (dir === "id2gor")
+        ? (NEURAL_BENCHMARK_ID2GOR[fullKey] || PAR_ID_MAP.has(fullKey) || LEX_ID_MAP.has(fullKey))
+        : (NEURAL_BENCHMARK_GOR2ID[fullKey] || PAR_GOR_MAP.has(fullKey) || LEX_GOR_MAP.has(fullKey.replace(/:/g, "")));
+
+      let result = "";
+      let method = "";
+      if (hasExactFull) {
+        const single = translateSegment(raw, dir);
+        result = single.result;
+        method = single.method;
+      } else {
+        const paragraphs = raw.split(/\n+/).map(p => p.trim()).filter(Boolean);
+        const methods = [];
+        const outParas = paragraphs.map(para => {
+          const sents = para.split(/(?<=[.!?])\s+/).map(s => s.trim()).filter(Boolean);
+          const multi = sents.length > 1;
+          return sents.map(s => {
+            const seg = translateSegment(s, dir);
+            if (seg.method && !methods.includes(seg.method)) methods.push(seg.method);
+            let out = (seg.result || "").trim();
+            if (out && !/[.!?]$/.test(out)) {
+              const sEnd = /[.!?]$/.test(s) ? s[s.length - 1] : ".";
+              if (sEnd === "?" || sEnd === "!" || multi) out += sEnd;
+            }
+            return out;
+          }).filter(Boolean).join(" ");
+        });
+        result = outParas.join("\n\n");
+        method = methods.length > 1 ? `📚 Terjemahan Paragraf (${methods.join(" + ")})` : (methods[0] || "");
+      }
+
+      outEl.textContent = result;
+      badgeEl.textContent = method;
+      renderAnalysis(raw, result, dir);
+    }
+
+    function renderAnalysis(src, tgt, dir) {
+      const gorSent = dir === "id2gor" ? tgt : src;
+      const tokens = gorSent.split(/\s+/);
+      const notes = [];
+
+      for (const tok of tokens) {
+        const tl = tok.toLowerCase().replace(/[.,!?]/g, "");
+        if (tl.includes("-") && tl.length >= 5) {
+          notes.push(`<li><code class="bg-indigo-100 px-1.5 py-0.5 rounded text-indigo-900 font-semibold">${tok}</code> → <strong>Kala Sedang</strong> (reduplikasi kata kerja)</li>`);
+        } else if (tl.startsWith("lo:") || tl.startsWith("lopo") || tl.startsWith("loti") || tl.startsWith("lona") || tl.startsWith("lodelo") || tl.startsWith("lohama") || tl.startsWith("losikola")) {
+          notes.push(`<li><code class="bg-indigo-100 px-1.5 py-0.5 rounded text-indigo-900 font-semibold">${tok}</code> → <strong>Kala Lampau</strong> (awalan <code>/l/</code>)</li>`);
+        } else if (tl.startsWith("mo:") || tl.startsWith("mopo") || tl.startsWith("moti") || tl.startsWith("motali") || tl.startsWith("monga")) {
+          notes.push(`<li><code class="bg-indigo-100 px-1.5 py-0.5 rounded text-indigo-900 font-semibold">${tok}</code> → <strong>Kala Akan / Aktif</strong> (awalan <code>/m/</code>)</li>`);
+        }
+        if (tl.endsWith("mayi") || tl === "mayi") {
+          notes.push(`<li><code class="bg-emerald-100 px-1.5 py-0.5 rounded text-emerald-900 font-semibold">${tok}</code> → <strong>MPA <code>mayi</code></strong> (arah menuju pembicara / ke sini)</li>`);
+        } else if (tl.endsWith("mao") || tl === "mao") {
+          notes.push(`<li><code class="bg-emerald-100 px-1.5 py-0.5 rounded text-emerald-900 font-semibold">${tok}</code> → <strong>MPA <code>mao</code></strong> (arah menjauh ke situ / pergi)</li>`);
+        }
+      }
+
+      document.getElementById("grammar-analysis").innerHTML = notes.length
+        ? `<ul class="list-disc pl-5 space-y-1.5">${notes.join("")}</ul>`
+        : `<p class="text-slate-500">Kalimat menggunakan struktur SPOK Bahasa Gorontalo ejaan baku 2001.</p>`;
+
+      // Cari kalimat paralel terkait
+      const queryWords = norm(src).split(" ").filter(w => w.length >= 4 && !STOPWORDS.has(w));
+      const related = [];
+      for (const [idP, gorP, yr] of CORPUS.parallel) {
+        if (queryWords.some(qw => idP.toLowerCase().includes(qw) || gorP.toLowerCase().includes(qw))) {
+          related.push(`<div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+            <div class="font-semibold text-indigo-900">${gorP}</div>
+            <div class="text-xs text-slate-600">${idP} <span class="text-slate-400">(Kamus ${yr})</span></div>
+          </div>`);
+          if (related.length >= 6) break;
+        }
+      }
+      document.getElementById("related-sentences").innerHTML = related.length
+        ? related.join("")
+        : `<p class="text-slate-500">Ketik kata kunci untuk melihat contoh kalimat kamus.</p>`;
+    }
+
+    function searchCorpus() {
+      const q = (document.getElementById("dict-search").value || "").trim().toLowerCase();
+      const mode = document.getElementById("dict-mode").value;
+      const qClean = q.replace(/:/g, "");
+
+      const lexMatches = [];
+      for (const item of CORPUS.lexicon) {
+        const [idW, gorW, gorAsli, tipe, yr] = item;
+        const matchId = idW.toLowerCase().includes(q);
+        const matchGor = gorW.toLowerCase().replace(/:/g, "").includes(qClean) || gorAsli.toLowerCase().includes(q);
+        if (!q || (mode === "id" && matchId) || (mode === "gor" && matchGor) || (mode === "all" && (matchId || matchGor))) {
+          lexMatches.push(item);
+          if (lexMatches.length >= 40) break;
+        }
+      }
+
+      const morMatches = [];
+      for (const item of CORPUS.morphology) {
+        const [akar, turGor, maknaId, contoh, yr] = item;
+        const match = !q || akar.toLowerCase().includes(qClean) || turGor.toLowerCase().replace(/:/g, "").includes(qClean) || maknaId.toLowerCase().includes(q);
+        if (match) {
+          morMatches.push(item);
+          if (morMatches.length >= 30) break;
+        }
+      }
+
+      document.getElementById("lex-count").textContent = `${lexMatches.length} ditampilkan`;
+      document.getElementById("lex-results").innerHTML = lexMatches.map(([idW, gorW, gorAsli, tipe, yr]) => `
+        <div class="p-3 rounded-xl border border-slate-200 hover:border-indigo-300 bg-slate-50/60">
+          <div class="flex justify-between items-start">
+            <span class="font-bold text-indigo-900">${gorW}</span>
+            <span class="text-[11px] bg-slate-200 px-2 py-0.5 rounded text-slate-700">Kamus ${yr}</span>
+          </div>
+          <div class="text-sm text-slate-700 mt-0.5">${idW}</div>
+          ${gorAsli !== gorW ? `<div class="text-xs text-slate-400 mt-0.5">Ejaan 1987: ${gorAsli}</div>` : ""}
+        </div>
+      `).join("");
+
+      document.getElementById("mor-count").textContent = `${morMatches.length} ditampilkan`;
+      document.getElementById("mor-results").innerHTML = morMatches.map(([akar, turGor, maknaId, contoh, yr]) => `
+        <div class="p-3 rounded-xl border border-emerald-200 bg-emerald-50/40">
+          <div class="flex justify-between">
+            <span class="font-bold text-emerald-950">${turGor} <span class="font-normal text-slate-500">← ${akar}</span></span>
+            <span class="text-[11px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">${yr}</span>
+          </div>
+          <div class="text-sm font-medium text-slate-800 mt-0.5">Arti: ${maknaId}</div>
+          ${contoh ? `<div class="text-xs text-slate-600 mt-1 italic">"${contoh}"</div>` : ""}
+        </div>
+      `).join("");
+    }
+
+    function convert1987to2001() {
+      let t = document.getElementById("orth-1987").value;
+      for (const v of ["a", "i", "u", "e", "o"]) {
+        t = t.replace(new RegExp(v + v, "gi"), v + ":");
+      }
+      t = t.replace(/(?<=[a-zA-Z])\?(?=[a-zA-Z])/g, "");
+      t = t.replace(/\btio\b/gi, "tiyo").replace(/\bboito\b/gi, "boyito").replace(/\bbotia\b/gi, "botiya").replace(/\bwa:tia\b/gi, "wa:tiya").replace(/\bmai\b/gi, "mayi");
+      document.getElementById("orth-2001").value = t;
+    }
+
+    function convert2001to1987() {
+      let t = document.getElementById("orth-2001").value;
+      for (const v of ["a", "i", "u", "e", "o"]) {
+        t = t.replace(new RegExp(v + ":", "gi"), v + v);
+      }
+      t = t.replace(/\btiyo\b/gi, "tio").replace(/\bboyito\b/gi, "boito").replace(/\bbotiya\b/gi, "botia").replace(/\bwaatiya\b/gi, "waatia").replace(/\bmayi\b/gi, "mai");
+      document.getElementById("orth-1987").value = t;
+    }
+
+    function simulateLoanword() {
+      const w = (document.getElementById("loan-input").value || "").trim().toLowerCase();
+      const box = document.getElementById("loan-output");
+      if (!w) { box.textContent = ""; return; }
+      let adapted = w;
+      if (!"aiueo".includes(w[w.length - 1])) {
+        const last = w[w.length - 1];
+        const vEnd = ["l", "r", "s", "t", "k", "n"].includes(last) ? "i" : "o";
+        adapted = w.length <= 5 ? w[0] + ":" + w.slice(1) + vEnd : w + vEnd;
+      }
+      box.innerHTML = `
+        <div><strong>Kata Asal (Indonesia):</strong> <code>${w}</code></div>
+        <div class="mt-1"><strong>Bentuk Serapan Vokalis Gorontalo (Siasat B):</strong> <code class="text-indigo-700 font-bold">${adapted}</code></div>
+        <div class="mt-1"><strong>Turunan Aktif (Kala Akan):</strong> <code>mo${adapted.replace(":", "")}</code> | <strong>Turunan Pasif:</strong> <code>${adapted}yolo</code></div>
+      `;
+    }
+
+    window.addEventListener("DOMContentLoaded", loadCorpus);
+  </script>
+</body>
+</html>

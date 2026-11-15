@@ -1,0 +1,14 @@
+{
+  "total_kalimat_paralel_gabungan": 29235,
+  "rincian_kalimat_paralel": {
+    "kamus_gorontalo_indonesia_2001": 9017,
+    "kamus_indonesia_gorontalo_1987": 20218
+  },
+  "total_leksikon_gabungan": 26798,
+  "rincian_leksikon": {
+    "kamus_gorontalo_indonesia_2001": 10936,
+    "kamus_indonesia_gorontalo_1987": 15862
+  },
+  "total_pasangan_morfologi_gabungan": 9777,
+  "total_instruksi_sft_gabungan": 95045
+}

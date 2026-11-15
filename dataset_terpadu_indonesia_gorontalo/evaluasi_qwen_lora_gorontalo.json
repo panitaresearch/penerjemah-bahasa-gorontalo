@@ -1,0 +1,214 @@
+{
+  "translate_id_to_gor": {
+    "num_samples": 1136,
+    "sacrebleu": 32.28,
+    "chrf_plusplus": 50.99,
+    "clean_num_samples": 1083,
+    "clean_sacrebleu": 32.86,
+    "clean_chrf_plusplus": 51.6,
+    "samples": [
+      {
+        "input": "sarung yang longgar mesii dipakaikan ikat pinggang",
+        "reference": "palipa moluwahu musi bintolalo",
+        "prediction": "palipa ma moluahu musi baniyolo"
+      },
+      {
+        "input": "kambing itu ada di hilir",
+        "reference": "batade mora to huliyalivo",
+        "prediction": "batade boyito mayito to huliyolo"
+      },
+      {
+        "input": "rusa akan buyar kalaw selalu diburu",
+        "reference": "buulu ma mobumengo wonu layito healupalo",
+        "prediction": "buulu ma moluluto wonu layito butahulo"
+      },
+      {
+        "input": "engkau mendapat byi kurang dari sepuluh kalau bermain dengan aku",
+        "reference": "yio mootapu boke wonu moyitohe wolau",
+        "prediction": "yio mootapu bo ngopee to pu:luliyo wonu moyitohu woliu"
+      },
+      {
+        "input": "———saya mim",
+        "reference": "wu:tiya mohile",
+        "prediction": "wau mo:he"
+      },
+      {
+        "input": "tidak ada yang bisa disuguhkan pada mereka",
+        "reference": "diya:lu u yinta oli mongoliyo",
+        "prediction": "diya:lu u mowali popotamelo to oli mongoliyo"
+      },
+      {
+        "input": "dia bele jalan terhuyung-huyung, kira-kira sudah mabuk",
+        "reference": "tiyo ngo-ngo ma bolo mba-mbayanga, kira-kira mahiluwoa",
+        "prediction": "tiyo lala-lalahu lo:nao kira-kira ma huo-huoo"
+      },
+      {
+        "input": "ikan terbang baik diasapi",
+        "reference": "tambayi gaga dengengolo",
+        "prediction": "uponula hitombo-tombota gaga wambolalo"
+      },
+      {
+        "input": "gunting rambutmu tidak rata",
+        "reference": "Auntingo huwoumu bo hikobo-kobonga",
+        "prediction": "hundingo huwoumu bo hula-huladu"
+      },
+      {
+        "input": "aku mengakui pada pengetahuannya. pasisir pesisir, penumpang",
+        "reference": "wau pasisi fo po:ngotota:liyo",
+        "prediction": "wau mongaku to po:ngotota:liyo"
+      }
+    ]
+  },
+  "translate_gor_to_id": {
+    "num_samples": 1136,
+    "sacrebleu": 24.36,
+    "chrf_plusplus": 49.14,
+    "clean_num_samples": 1083,
+    "clean_sacrebleu": 25.27,
+    "clean_chrf_plusplus": 50.5,
+    "samples": [
+      {
+        "input": "palipa moluwahu musi bintolalo",
+        "reference": "sarung yang longgar mesii dipakaikan ikat pinggang",
+        "prediction": "sarung yang agak besar mesti dipotong sedikit"
+      },
+      {
+        "input": "batade mora to huliyalivo",
+        "reference": "kambing itu ada di hilir",
+        "prediction": "kambing merah pada bulunya"
+      },
+      {
+        "input": "buulu ma mobumengo wonu layito healupalo",
+        "reference": "rusa akan buyar kalaw selalu diburu",
+        "prediction": "babi akan membelah kalau selalu dipukul"
+      },
+      {
+        "input": "yio mootapu boke wonu moyitohe wolau",
+        "reference": "engkau mendapat byi kurang dari sepuluh kalau bermain dengan aku",
+        "prediction": "engkau mendapat 'boke' kalau bermain dengan aku"
+      },
+      {
+        "input": "wu:tiya mohile",
+        "reference": "———saya mim",
+        "prediction": "aku minta"
+      },
+      {
+        "input": "diya:lu u yinta oli mongoliyo",
+        "reference": "tidak ada yang bisa disuguhkan pada mereka",
+        "prediction": "tidak ada yang mereka perbuat"
+      },
+      {
+        "input": "tiyo ngo-ngo ma bolo mba-mbayanga, kira-kira mahiluwoa",
+        "reference": "dia bele jalan terhuyung-huyung, kira-kira sudah mabuk",
+        "prediction": "dia sudah tidak bisa berjalan, kira-kira sakit pinggang"
+      },
+      {
+        "input": "tambayi gaga dengengolo",
+        "reference": "ikan terbang baik diasapi",
+        "prediction": "tambun baik dibuat gergaji"
+      },
+      {
+        "input": "Auntingo huwoumu bo hikobo-kobonga",
+        "reference": "gunting rambutmu tidak rata",
+        "prediction": "Kepala mu hanya berbintik-bintik"
+      },
+      {
+        "input": "wau pasisi fo po:ngotota:liyo",
+        "reference": "aku mengakui pada pengetahuannya. pasisir pesisir, penumpang",
+        "prediction": "aku pasif pada bidang pengetahuannya"
+      }
+    ]
+  },
+  "translate_gor1987_to_id": {
+    "num_samples": 618,
+    "sacrebleu": 27.21,
+    "chrf_plusplus": 52.17,
+    "clean_num_samples": 600,
+    "clean_sacrebleu": 27.68,
+    "clean_chrf_plusplus": 52.77,
+    "samples": [
+      {
+        "input": "Daahangi boito moboyolo mopowualingo biloli",
+        "reference": "Pedagang itu agak meneledorkan membayar hutang",
+        "prediction": "Perdagangan itu menipiskan pembayaran hutang"
+      },
+      {
+        "input": "Daadaata ta lobiilohe to?u ti Mandili yilate",
+        "reference": "Banyak pelayat pada waktu menteri meninggal",
+        "prediction": "Banyak orang menangis ketika Imam meninggal"
+      },
+      {
+        "input": "daadaata hepotalilio to paatali",
+        "reference": "salak, i banyak dijual di pasar, Salak",
+        "prediction": "banyak dijual di pasar"
+      },
+      {
+        "input": "Waatia ohila motali lasipede",
+        "reference": "Saya ingin dibeli sepeda",
+        "prediction": "Saya ingin membeli sepeda"
+      },
+      {
+        "input": "Mofolio?a lohihilao",
+        "reference": "bergerak tersendiri",
+        "prediction": "Bermain sendiri"
+      },
+      {
+        "input": "Yilongola hilultamu buurungi boito",
+        "reference": "Kenapa engkau lepas burung itu",
+        "prediction": "Kenapa kau jatuhkan burung itu"
+      },
+      {
+        "input": "Hamaamai teele?a, waatia ma momotele?o",
+        "reference": "keekeri Ambillah corong, saya akan menuangkan teh",
+        "prediction": "Ambillah pinang saya akan meminang"
+      },
+      {
+        "input": "Timongolio musi woluo to taambari sababu ta momarakisa moona?omai loombu",
+        "reference": "Mereka harus ada di tempat karena pemeriksa akan datang besok",
+        "prediction": "Mereka harus ada di tambak sebab inspektur akan datang besok"
+      },
+      {
+        "input": "u hebisalaalio maso to akali (pongaa lo akali)",
+        "reference": "yang dikatakannya logis, Wolo",
+        "prediction": "yang dikatakannya masuk akal"
+      },
+      {
+        "input": "Ngobuta?o diila satuju lo u momaayari haasili",
+        "reference": "Separuh tidak setuju dengan pembayaran pajak",
+        "prediction": "Kedua belah pihak tidak setuju untuk membayar pajak"
+      }
+    ]
+  },
+  "siasat_reasoning_samples": [
+    {
+      "instruction": "Bentuklah kata turunan bahasa Gorontalo dari akar kata 'tuladu' beserta artinya dalam bahasa Indonesia.",
+      "input": "Akar kata: tuladu -> Makna sasaran: menulis",
+      "prediction": "Kata turunan: moluladu (Artinya: menulis) | Contoh: wau di:la mowali moluladu = aku tidak bisa menulis"
+    },
+    {
+      "instruction": "Adaptasikan kata bahasa Indonesia berikut ke dalam bahasa Gorontalo sesuai kaidah fonotaktik vokalis Prof. Mansoer Pateda beserta contoh imbuhannya.",
+      "input": "adil",
+      "prediction": "Bentuk serapan Gorontalo: a:dili | Contoh turunan: moa:dili / a:diliyolo | Kaidah: Adaptasi fonotaktik vokalis Bahasa Gorontalo dari kata 'adil' menjadi 'a:dili' (berakhiran vokal terbuka '-i')."
+    },
+    {
+      "instruction": "Jelaskan 5 sistem kala (tense/aspect) dalam Bahasa Gorontalo menurut Prof. Dr. H. Mansoer Pateda beserta penanda morfologis dan contohnya.",
+      "input": "Sistem Kala Bahasa Gorontalo",
+      "prediction": "Sistem kala Bahasa Gorontalo terdiri dari 5 kala: sekarang (sudut), masa lalu (kakali), masa depan (ma:timao), masa lampau (ma:timao lo u mulo:lo), dan masa akan datang (ma:timao lo u mo:mo:li). Penanda morfologis kala-kala tersebut ada pada akhiran kata dasar:"
+    },
+    {
+      "instruction": "Terjemahkan kalimat bahasa Indonesia berikut ke dalam bahasa Gorontalo yang baik dan benar sesuai kaidah Prof. Mansoer Pateda.",
+      "input": "Saya pergi ke pasar kemarin.",
+      "prediction": "Wa:tiya lo:nao ode pa:tali ola:ngo"
+    }
+  ],
+  "training_summary": {
+    "base_model": "Qwen/Qwen2.5-7B-Instruct",
+    "saved_lora_path": "/content/drive/MyDrive/REPO/richie/modelgorontalo/models/qwen2.5-7b-gorontalo-lora",
+    "lora_r": 32,
+    "lora_alpha": 64,
+    "train_samples": 130499,
+    "epochs": 1,
+    "train_loss": 1.6235,
+    "elapsed_minutes": 168.57
+  }
+}

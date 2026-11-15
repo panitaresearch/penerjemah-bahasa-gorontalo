@@ -1,0 +1,37 @@
+{
+  "parallel_clean_total": 22751,
+  "parallel_splits": {
+    "train": 20479,
+    "val": 1136,
+    "test": 1136
+  },
+  "siasat_augmentation_counts": {
+    "siasat_a_morphology_and_grammar": 9302,
+    "siasat_b_loanword_phonologization": 1556,
+    "siasat_c_analytical_mpa": 699,
+    "siasat_d_synonym_and_register": 9135
+  },
+  "seq2seq_splits": {
+    "train": 145920,
+    "val": 2898,
+    "test": 2890
+  },
+  "sft_augmented_splits": {
+    "train": 130499,
+    "val": 2898,
+    "test": 2890
+  },
+  "sft_train_task_breakdown": {
+    "lexicon_id_to_gor": 28727,
+    "lexicon_gor_to_id": 28727,
+    "translate_id_to_gor": 20479,
+    "translate_gor_to_id": 20479,
+    "translate_gor1987_to_id": 11395,
+    "translate_id_to_gor_synonym": 9135,
+    "morphology_id_to_gor": 5461,
+    "morphology_derivation": 3808,
+    "loanword_phonologization": 1556,
+    "analytical_paraphrase_mpa": 699,
+    "grammar_rule_gorontalo": 33
+  }
+}

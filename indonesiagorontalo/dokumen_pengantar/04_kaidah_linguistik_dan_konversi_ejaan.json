@@ -1,0 +1,125 @@
+{
+  "metadata_kamus": {
+    "judul": "Kamus Bahasa Indonesia-Gorontalo",
+    "penyusun": "Prof. Dr. H. Mansoer Pateda",
+    "arah_terjemahan": "Indonesia -> Gorontalo (BI -> BG)",
+    "halaman_pengantar": "xi - xxix (19 halaman)",
+    "halaman_leksikon": "489 halaman (Abjad A s.d. Z)"
+  },
+  "perbandingan_dan_konversi_ortografi": {
+    "penjelasan": "Kamus Indonesia-Gorontalo (Pateda 1987) dan Kamus Gorontalo-Indonesia (Pateda 2001) menggunakan dua konvensi ortografi yang saling berkorespondensi 1-ke-1 secara sistematis.",
+    "kaidah_konversi": [
+      {
+        "fitur_fonologis": "Vokal Panjang (/a:/, /i:/, /u:/, /e:/, /o:/)",
+        "ejaan_indo_gorontalo": "Vokal Ganda (aa, ii, uu, ee, oo) — mis. paatali, waatia, diila, utoonu, leeto",
+        "ejaan_gorontalo_indo": "Titik Dua (a:, i:, u:, e:, o:) — mis. pa:tali, wa:tiya, di:la, uto:nu, le:to"
+      },
+      {
+        "fitur_fonologis": "Hentian Glotal / Glottal Stop (/ʔ/)",
+        "ejaan_indo_gorontalo": "Tanda Tanya (?) — mis. wa?u, yi?o, ma?o, lo?otapu, hulo?o, pe?eenda",
+        "ejaan_gorontalo_indo": "Tanpa lambang / apostrof — mis. wau, yio, mao, lootapu, huloo, pee:nda"
+      },
+      {
+        "fitur_fonologis": "Bunyi Luncuran / Glide (/y/ setelah i, /w/ setelah u)",
+        "ejaan_indo_gorontalo": "Tidak ditulis — mis. tio, boito, botia, waatia, -lio, doi, mai, luahu, tuau, duluo",
+        "ejaan_gorontalo_indo": "Ditulis eksplisit (y/w) — mis. tiyo, boyito, botiya, wa:tiya, -liyo, doyi, mayi, luwahu, tuwawu, duluwo"
+      }
+    ]
+  },
+  "sistem_5_kala_gorontalo": {
+    "kala_akan": {
+      "penanda": [
+        "mo-",
+        "-lo",
+        "-um-"
+      ],
+      "contoh": {
+        "modelo": "(akan) membawa",
+        "deloolo": "(akan) dibawa",
+        "tumuoto": "(akan) masuk"
+      }
+    },
+    "kala_sedang_masih": {
+      "penanda": [
+        "hemo-",
+        "hemoti-"
+      ],
+      "contoh": {
+        "hemomake": "sedang masih berpakaian",
+        "hemotihulo?o": "sedang masih mendudukkan diri"
+      }
+    },
+    "kala_sedang": {
+      "penanda": [
+        "reduplikasi"
+      ],
+      "contoh": {
+        "bala-balato": "sedang berguling",
+        "hulo-hulo?o": "sedang duduk",
+        "tihu-tihulo": "sedang berdiri"
+      }
+    },
+    "kala_sedang_lampau": {
+      "penanda": [
+        "helo-",
+        "heloti-"
+      ],
+      "contoh": {
+        "helotihulo?o": "telah sedang duduk",
+        "helodelo": "telah sedang membawa"
+      }
+    },
+    "kala_lampau": {
+      "penanda": [
+        "lo-",
+        "-il-",
+        "lee-"
+      ],
+      "contoh": {
+        "lodelo": "telah membawa",
+        "dilelo": "telah dibawa",
+        "leehuluto": "telah tergelincir"
+      }
+    }
+  },
+  "morfem_penunjuk_arah_mpa": {
+    "mai": "menuju pembicara (ke sini / datang)",
+    "ma?o": "menjauh dari pembicara ke samping kiri/kanan (ke situ / pergi)",
+    "mola": "menjauh dari pembicara ke arah utara/udik (ke sana [udik] / pergi)",
+    "mota": "menjauh dari pembicara ke arah selatan/hilir (ke sana [hilir] / pergi)"
+  },
+  "pronomina_dan_akhiran_persona": {
+    "orang_1_tunggal": {
+      "bebas_biasa": "wa?u",
+      "bebas_hormat": "waatia",
+      "akhiran_biasa": "-?u",
+      "akhiran_hormat": "-laatia"
+    },
+    "orang_1_jamak": {
+      "bebas_eksklusif": "ami",
+      "bebas_hormat": "amiaatia",
+      "bebas_inklusif": "ito",
+      "akhiran_eksklusif": "-lami",
+      "akhiran_hormat": "-lamiaatia",
+      "akhiran_inklusif": "-ndo"
+    },
+    "orang_2_tunggal": {
+      "bebas_biasa": "yi?o",
+      "bebas_hormat": "ito",
+      "akhiran_biasa": "-mu",
+      "akhiran_hormat": "-ndo"
+    },
+    "orang_2_jamak": {
+      "bebas": "timongoli",
+      "akhiran": "-limongoli"
+    },
+    "orang_3_tunggal": {
+      "bebas": "tio",
+      "akhiran": "-lio"
+    },
+    "orang_3_jamak": {
+      "bebas": "timongolio",
+      "akhiran": "-limongolio"
+    }
+  }
+}

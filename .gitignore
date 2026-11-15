@@ -1,0 +1,74 @@
+# ==============================================================================
+# .gitignore — Panita Research Gorontalo (Code, Docs, Eval Metrics, & Papers)
+# Datasets, copyrighted dictionary scans, massive HF weights, and local logs
+# are strictly excluded from Git tracking.
+# ==============================================================================
+
+# Python & Jupyter artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Secrets, tokens, and environment files (never commit!)
+.env
+.env.*
+*.key
+*.pem
+*.token
+*credentials*
+
+# Raw copyrighted dictionary PDFs, spreadsheets, and generated datasets
+*.pdf
+!paper/paper_en.pdf
+!paper/paper_id.pdf
+*.xlsx
+*.xls
+*.parquet
+*.jsonl
+*.csv
+
+gorontaloindonesia/dataset/
+indonesiagorontalo/dataset/
+dataset_terpadu_indonesia_gorontalo/v5_backup_before_reconcile/
+dataset_terpadu_indonesia_gorontalo/reconcile_v6_preview/*.jsonl
+othersource/
+hf_space_gorontalo/data/
+hf_space_gorontalo/corpus_gorontalo.json
+hf_space_gorontalo/paper/
+
+# Exclude archived paper drafts with old naming
+paper/paper_ieee_*
+
+# Massive model weights, checkpoints, tokenizers, and archives (hosted on HF Hub)
+models/**/*.safetensors
+models/**/*.bin
+models/**/*.pt
+models/**/tokenizer.json
+models/**/tokenizer_config.json
+models/**/config.json
+models/**/adapter_config.json
+models/**/chat_template.jinja
+models/**/generation_config.json
+models/**/paper/
+models/**/*.ipynb
+models_prev_archive/
+models_v4_archive/
+ckpts_*/
+wandb/
+
+# Duplicate notebook & archived stale v4/v5 helper files
+hf_space_gorontalo/*.ipynb
+gorontaloindonesia/README.md
+run_training_v5.sh
+
+# Local runtime logs, extraction caches, and assistant session configs
+logs/
+riwayat_sesi_ekstraksi/
+.agents/
+AGENTS.md
+GEMINI.md
+.DS_Store
+Thumbs.db

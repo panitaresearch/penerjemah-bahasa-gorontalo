@@ -1,0 +1,14 @@
+{
+  "completed": true,
+  "timestamp_utc": "2026-11-15T02:32:12Z",
+  "model_name": "facebook/nllb-200-distilled-600M",
+  "train_samples": 309206,
+  "train_samples_before_oversampling": 145920,
+  "val_samples": 2898,
+  "epochs": 4,
+  "train_loss": 1.1307,
+  "baseline_id_to_gor_bleu": 0.17,
+  "baseline_id_to_gor_chrf": 10.26,
+  "baseline_gor_to_id_bleu": 0.24,
+  "baseline_gor_to_id_chrf": 10.66
+}

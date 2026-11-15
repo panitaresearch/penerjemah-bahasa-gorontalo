@@ -1,0 +1,399 @@
+{
+  "metadata": {
+    "judul": "Tata Bahasa dan Kaidah Linguistik Bahasa Gorontalo",
+    "sumber": "Kamus Bahasa Gorontalo-Indonesia",
+    "penyusun": "Prof. Dr. Mansoer Pateda",
+    "penerbit": "Pusat Bahasa, Departemen Pendidikan Nasional & Balai Pustaka",
+    "tahun": 2001,
+    "isbn": "979-666-638-3",
+    "halaman_buku": "xi - xxxv",
+    "deskripsi": "Representasi terstruktur kaidah fonologi, morfologi, sintaksis, pronomina, numeralia, dan leksikografi untuk pemrosesan dataset NLP bahasa daerah Gorontalo."
+  },
+  "pengabjadan": {
+    "total_huruf": 25,
+    "urutan": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "mb",
+      "n",
+      "ng",
+      "ngg",
+      "nt",
+      "ny",
+      "o",
+      "p",
+      "r",
+      "s",
+      "t",
+      "u",
+      "w",
+      "y"
+    ],
+    "konsonan_rangkap_khusus": [
+      "mb",
+      "ng",
+      "ngg",
+      "nt",
+      "ny"
+    ]
+  },
+  "fonologi": {
+    "vokal_pendek": [
+      "i",
+      "u",
+      "e",
+      "o",
+      "a"
+    ],
+    "vokal_panjang": [
+      "i:",
+      "u:",
+      "e:",
+      "o:",
+      "a:"
+    ],
+    "konsonan": [
+      "p",
+      "b",
+      "t",
+      "d",
+      "k",
+      "g",
+      "s",
+      "h",
+      "m",
+      "n",
+      "ng",
+      "mb",
+      "ngg",
+      "nt",
+      "ny",
+      "l",
+      "r",
+      "w",
+      "y",
+      "c",
+      "j"
+    ],
+    "sifat_fonotaktik": "Bahasa vokalis murni (suku kata terbuka). Semua kata asli berakhiran vokal.",
+    "posisi_vokal_panjang": "Hanya di posisi awal dan tengah suku kata, tidak terdapat di akhir kata.",
+    "tekanan_kata": "Penultima (suku kata kedua dari belakang). Berpindah ke penultima baru jika menerima imbuhan."
+  },
+  "morfologi": {
+    "awalan_berpasangan": [
+      {
+        "aktif": "mo-",
+        "lampau": "lo-",
+        "imperatif": "po-",
+        "fungsi": "Aksi aktif dasar / statif / instrumen"
+      },
+      {
+        "aktif": "mopo-",
+        "lampau": "lopo-",
+        "imperatif": "popo-",
+        "fungsi": "Kausatif (membuat jadi, menyuruh)"
+      },
+      {
+        "aktif": "moo-",
+        "lampau": "loo-",
+        "imperatif": "poo-",
+        "fungsi": "Kesanggupan / tak sengaja"
+      },
+      {
+        "aktif": "moti-",
+        "lampau": "loti-",
+        "imperatif": "poti-",
+        "fungsi": "Refleksif / proses spontan"
+      },
+      {
+        "aktif": "motiti-",
+        "lampau": "lotiti-",
+        "imperatif": "potiti-",
+        "fungsi": "Resiprokal intensif"
+      },
+      {
+        "aktif": "mohi-",
+        "lampau": "lohi-",
+        "imperatif": "pohi-",
+        "fungsi": "Mengenakan / memakai sesuatu"
+      },
+      {
+        "aktif": "molo-",
+        "lampau": "lolo-",
+        "imperatif": "polo-",
+        "fungsi": "Menjadi / memiliki sifat"
+      },
+      {
+        "aktif": "meipo-",
+        "lampau": "leipo-",
+        "imperatif": "peipo-",
+        "fungsi": "Kausatif sekunder"
+      },
+      {
+        "aktif": "meipoo-",
+        "lampau": "leipoo-",
+        "imperatif": "peipoo-",
+        "fungsi": "Kausatif kesanggupan"
+      },
+      {
+        "aktif": "meipoti-",
+        "lampau": "leipoti-",
+        "imperatif": "peipoti-",
+        "fungsi": "Kausatif refleksif"
+      },
+      {
+        "aktif": "meipohi-",
+        "lampau": "leipohi-",
+        "imperatif": "peipohi-",
+        "fungsi": "Menyuruh memakai pakaian"
+      }
+    ],
+    "awalan_tak_berpasangan": [
+      {
+        "afiks": "mongo-",
+        "makna": "Jamak kolektif / kekerabatan"
+      },
+      {
+        "afiks": "mopohu- / lopohu-",
+        "makna": "Komparatif (bertambah lebih...)"
+      },
+      {
+        "afiks": "topo-",
+        "makna": "Kebiasaan / profesi"
+      },
+      {
+        "afiks": "tohu-",
+        "makna": "Gerakan terarah"
+      },
+      {
+        "afiks": "ngo-",
+        "makna": "Satu satuan"
+      },
+      {
+        "afiks": "ngopo-",
+        "makna": "Satu kumpulan utuh"
+      },
+      {
+        "afiks": "opo-",
+        "makna": "Dapat di-... (potensial pasif)"
+      },
+      {
+        "afiks": "tonggo-",
+        "makna": "Bersama-sama melakukan aksi"
+      },
+      {
+        "afiks": "ilo-",
+        "makna": "Tidak sengaja terkena aksi"
+      },
+      {
+        "afiks": "o-",
+        "makna": "Memiliki / berada"
+      }
+    ],
+    "sisipan": [
+      {
+        "infiks": "-il-",
+        "aspek": "Pasif lampau (preteritum)"
+      },
+      {
+        "infiks": "-om-",
+        "aspek": "Pasif umum"
+      },
+      {
+        "infiks": "-um-",
+        "aspek": "Aktif intensional"
+      },
+      {
+        "infiks": "-ilum-",
+        "aspek": "Aktif lampau"
+      },
+      {
+        "infiks": "-ilim-",
+        "aspek": "Aktif progresif duratif"
+      }
+    ],
+    "akhiran": [
+      {
+        "sufiks": "-lo",
+        "fungsi": "Pasif ('di-'), kepemilikan sifat, ajakan"
+      },
+      {
+        "sufiks": "-po",
+        "fungsi": "Aspek permisi / sementara ('dulu')"
+      },
+      {
+        "sufiks": "-lolo",
+        "fungsi": "Tindakan lugas ('saja')"
+      }
+    ]
+  },
+  "penggolong_numeralia": [
+    {
+      "penggolong": "hulo",
+      "kategori": "orang / manusia",
+      "contoh": "tawu ngohulo (satu orang)"
+    },
+    {
+      "penggolong": "mato",
+      "kategori": "senjata tajam, bilah, mata pisau",
+      "contoh": "pito ngomato (sebilah pisau)"
+    },
+    {
+      "penggolong": "tanggo",
+      "kategori": "ranting, cabang kayu",
+      "contoh": "ayu ngotanggo (seranting kayu)"
+    },
+    {
+      "penggolong": "wuboto",
+      "kategori": "ikatan sayur / kayu",
+      "contoh": "huwaato ngowuboto (seikat kayu bakar)"
+    },
+    {
+      "penggolong": "butiyo",
+      "kategori": "butir biji-bijian / padi",
+      "contoh": "pale ngobutiyo (sebutir padi)"
+    },
+    {
+      "penggolong": "pataho",
+      "kategori": "petak tanah / sawah",
+      "contoh": "huta ngopataho (sepetak tanah)"
+    },
+    {
+      "penggolong": "tohe",
+      "kategori": "pohon tegak utuh",
+      "contoh": "bongo ngotohe (sebatang pohon kelapa)"
+    },
+    {
+      "penggolong": "bohu",
+      "kategori": "buah berdaging tebal",
+      "contoh": "oyile ngobohu (sebutir mangga)"
+    },
+    {
+      "penggolong": "buheli",
+      "kategori": "tangkai buah kelapa / enau",
+      "contoh": "bongo ngobuheli (setangkai buah kelapa)"
+    },
+    {
+      "penggolong": "dupoto",
+      "kategori": "ruas tebu / bambu",
+      "contoh": "patodu ngodupoto (seruas tebu)"
+    },
+    {
+      "penggolong": "hungo",
+      "kategori": "buah umum",
+      "contoh": "lutu ngohungo (sebuah pisang)"
+    },
+    {
+      "penggolong": "kente",
+      "kategori": "lembar kain / kertas",
+      "contoh": "karatasi ngokente (selembar kertas)"
+    },
+    {
+      "penggolong": "laito",
+      "kategori": "sisir pisang",
+      "contoh": "lutu ngolaito (sesisir pisang)"
+    },
+    {
+      "penggolong": "lililo",
+      "kategori": "gulungan tali / utas",
+      "contoh": "wahuwa ngolililo (seutas tali)"
+    },
+    {
+      "penggolong": "pangge",
+      "kategori": "tangkai bunga / bulir",
+      "contoh": "bunga ngopangge (setangkai bunga)"
+    },
+    {
+      "penggolong": "pari",
+      "kategori": "pasangan benda",
+      "contoh": "sapatu ngopari (sepasang sepatu)"
+    },
+    {
+      "penggolong": "pata",
+      "kategori": "helai daun",
+      "contoh": "du:ngo ngopata (sehelai daun)"
+    }
+  ],
+  "pronomina": {
+    "persona_1_tunggal": [
+      "wau",
+      "wa:tiya"
+    ],
+    "persona_1_jamak_eksklusif": [
+      "ami",
+      "amiya:tiya"
+    ],
+    "persona_1_jamak_inklusif": [
+      "ito",
+      "itowali"
+    ],
+    "persona_2_tunggal": [
+      "yio"
+    ],
+    "persona_2_jamak": [
+      "timongoli"
+    ],
+    "persona_3_tunggal": [
+      "tiyo"
+    ],
+    "persona_3_jamak": [
+      "timongoliyo"
+    ],
+    "enklitik_kepunyaan": {
+      "-u": "orang pertama (-ku)",
+      "-mu": "orang kedua (-mu)",
+      "-liyo": "orang ketiga (-nya)",
+      "-nto": "inklusif / bentuk sopan kita / bapak / ibu"
+    },
+    "penanya": {
+      "wolo": "apa",
+      "tolo": "berapa",
+      "omoluwa": "kapan",
+      "to:nu / utoonu": "mana / yang mana",
+      "yilongola": "mengapa / kenapa"
+    },
+    "penunjuk": {
+      "utiya / botiya": "ini (dekat pembicara)",
+      "boyito / uwito": "itu (jauh atau dekat pendengar)"
+    }
+  },
+  "preposisi": [
+    {
+      "kata": "to",
+      "arti": "di / pada",
+      "contoh": "to bele (di rumah)"
+    },
+    {
+      "kata": "ode",
+      "arti": "ke",
+      "contoh": "ode pa:tali (ke pasar)"
+    },
+    {
+      "kata": "lonto / monto",
+      "arti": "dari",
+      "contoh": "lonto sikola (dari sekolah)"
+    }
+  ],
+  "artikel_nama": {
+    "te": "penanda nama diri laki-laki (mis. te Dula)",
+    "ti": "penanda nama diri perempuan (mis. ti Ija)"
+  },
+  "sintaksis": {
+    "pola_dasar": "S - V - O (Subjek - Verba - Objek)",
+    "penanda_aspek": {
+      "progresif": "he- / hemo-",
+      "perfektif_lampau": "lo- / -il- / ola:ngo",
+      "futur": "ma / de"
+    }
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "id_to_gor": {
+    "num_samples": 1136,
+    "sacrebleu": 40.59,
+    "chrf_plusplus": 57.98,
+    "samples": [
+      {
+        "source": "sarung yang longgar mesii dipakaikan ikat pinggang",
+        "reference": "palipa moluwahu musi bintolalo",
+        "prediction": "palipa moluahu pakeyala bani"
+      },
+      {
+        "source": "kambing itu ada di hilir",
+        "reference": "batade mora to huliyalivo",
+        "prediction": "batade boyito mayito to hulialiyo"
+      },
+      {
+        "source": "rusa akan buyar kalaw selalu diburu",
+        "reference": "buulu ma mobumengo wonu layito healupalo",
+        "prediction": "buulu ma lobu:bari wonu layito ajupalo"
+      },
+      {
+        "source": "engkau mendapat byi kurang dari sepuluh kalau bermain dengan aku",
+        "reference": "yio mootapu boke wonu moyitohe wolau",
+        "prediction": "yio mootapu ku:rangi lo mopulu wonu moyitohu wolau"
+      },
+      {
+        "source": "———saya mim",
+        "reference": "wu:tiya mohile",
+        "prediction": "wau mimilo"
+      },
+      {
+        "source": "tidak ada yang bisa disuguhkan pada mereka",
+        "reference": "diya:lu u yinta oli mongoliyo",
+        "prediction": "diya:lu u mowali popoyingo oli mongoliyo"
+      },
+      {
+        "source": "dia bele jalan terhuyung-huyung, kira-kira sudah mabuk",
+        "reference": "tiyo ngo-ngo ma bolo mba-mbayanga, kira-kira mahiluwoa",
+        "prediction": "tiyo dalalo papa:mbelenIa, kira-kira ma yilu-ydu"
+      },
+      {
+        "source": "ikan terbang baik diasapi",
+        "reference": "tambayi gaga dengengolo",
+        "prediction": "uponula layulayuhu gaga tumbualo"
+      },
+      {
+        "source": "gunting rambutmu tidak rata",
+        "reference": "Auntingo huwoumu bo hikobo-kobonga",
+        "prediction": "punguto huwoumu hidamba-dambala"
+      },
+      {
+        "source": "aku mengakui pada pengetahuannya. pasisir pesisir, penumpang",
+        "reference": "wau pasisi fo po:ngotota:liyo",
+        "prediction": "wau longaku to po:ngotota:liyo"
+      }
+    ]
+  },
+  "gor_to_id": {
+    "num_samples": 1136,
+    "sacrebleu": 32.57,
+    "chrf_plusplus": 56.8,
+    "samples": [
+      {
+        "source": "palipa moluwahu musi bintolalo",
+        "reference": "sarung yang longgar mesii dipakaikan ikat pinggang",
+        "prediction": "sarung yang longgar mesti dipakaikan ikal pinggang"
+      },
+      {
+        "source": "batade mora to huliyalivo",
+        "reference": "kambing itu ada di hilir",
+        "prediction": "kambing ada di hilir"
+      },
+      {
+        "source": "buulu ma mobumengo wonu layito healupalo",
+        "reference": "rusa akan buyar kalaw selalu diburu",
+        "prediction": "rusa akan bertobat kalau selalu diselimuti"
+      },
+      {
+        "source": "yio mootapu boke wonu moyitohe wolau",
+        "reference": "engkau mendapat byi kurang dari sepuluh kalau bermain dengan aku",
+        "prediction": "engkau mendapat pukulan kalau bermain dengan aku"
+      },
+      {
+        "source": "wu:tiya mohile",
+        "reference": "———saya mim",
+        "prediction": "saya minta"
+      },
+      {
+        "source": "diya:lu u yinta oli mongoliyo",
+        "reference": "tidak ada yang bisa disuguhkan pada mereka",
+        "prediction": "tidak ada yang dimintai bantuan mereka"
+      },
+      {
+        "source": "tiyo ngo-ngo ma bolo mba-mbayanga, kira-kira mahiluwoa",
+        "reference": "dia bele jalan terhuyung-huyung, kira-kira sudah mabuk",
+        "prediction": "dia sedang terhuyung-huyung, kira-kira sudah mabuk"
+      },
+      {
+        "source": "tambayi gaga dengengolo",
+        "reference": "ikan terbang baik diasapi",
+        "prediction": "ikan kebos baik dibahang"
+      },
+      {
+        "source": "Auntingo huwoumu bo hikobo-kobonga",
+        "reference": "gunting rambutmu tidak rata",
+        "prediction": "gunting rambutmu hanya gunting rambut"
+      },
+      {
+        "source": "wau pasisi fo po:ngotota:liyo",
+        "reference": "aku mengakui pada pengetahuannya. pasisir pesisir, penumpang",
+        "prediction": "aku mengakui kepandaiannya"
+      }
+    ]
+  },
+  "gor1987_to_id": {
+    "num_samples": 618,
+    "sacrebleu": 35.6,
+    "chrf_plusplus": 59.29,
+    "samples": [
+      {
+        "source": "Daahangi boito moboyolo mopowualingo biloli",
+        "reference": "Pedagang itu agak meneledorkan membayar hutang",
+        "prediction": "Pedagang itu memboyong mengembalikan hutang"
+      },
+      {
+        "source": "Daadaata ta lobiilohe to?u ti Mandili yilate",
+        "reference": "Banyak pelayat pada waktu menteri meninggal",
+        "prediction": "Banyak pelawat ketika Mandili meninggal"
+      },
+      {
+        "source": "daadaata hepotalilio to paatali",
+        "reference": "salak, i banyak dijual di pasar, Salak",
+        "prediction": "banyak dijual di pasar"
+      },
+      {
+        "source": "Waatia ohila motali lasipede",
+        "reference": "Saya ingin dibeli sepeda",
+        "prediction": "Saya ingin membeli sepeda"
+      },
+      {
+        "source": "Mofolio?a lohihilao",
+        "reference": "bergerak tersendiri",
+        "prediction": "Sewenang-wenang"
+      },
+      {
+        "source": "Yilongola hilultamu buurungi boito",
+        "reference": "Kenapa engkau lepas burung itu",
+        "prediction": "Kenapa kau hinggap burung itu"
+      },
+      {
+        "source": "Hamaamai teele?a, waatia ma momotele?o",
+        "reference": "keekeri Ambillah corong, saya akan menuangkan teh",
+        "prediction": "Ambillah corong, saya akan mencaruk"
+      },
+      {
+        "source": "Timongolio musi woluo to taambari sababu ta momarakisa moona?omai loombu",
+        "reference": "Mereka harus ada di tempat karena pemeriksa akan datang besok",
+        "prediction": "Mereka harus berada di tempat karena pengusut akan datang besok"
+      },
+      {
+        "source": "u hebisalaalio maso to akali (pongaa lo akali)",
+        "reference": "yang dikatakannya logis, Wolo",
+        "prediction": "Apa yang ia katakan masuk akal"
+      },
+      {
+        "source": "Ngobuta?o diila satuju lo u momaayari haasili",
+        "reference": "Separuh tidak setuju dengan pembayaran pajak",
+        "prediction": "setengah tidak setuju dengan pembayar pajak"
+      }
+    ]
+  },
+  "qualitative_id_to_gor": [
+    {
+      "indonesia": "Saya pergi ke pasar kemarin.",
+      "gorontalo_pred": "Wa:tiya lo:nao ode pa:tali ola:ngo"
+    },
+    {
+      "indonesia": "Aku akan pergi membeli beras di pasar.",
+      "gorontalo_pred": "Wau ma mota motali pale to pa:tali"
+    },
+    {
+      "indonesia": "Dia sedang duduk di rumah.",
+      "gorontalo_pred": "Tiyo hulo-huloa to bele"
+    },
+    {
+      "indonesia": "Mereka sudah membawa buku itu ke sini.",
+      "gorontalo_pred": "Timongoliyo ma lodelo buku boyito odiamayi"
+    },
+    {
+      "indonesia": "Tiap-tiap pagi halaman rumah mesti disapu.",
+      "gorontalo_pred": "Timiidu dumodupo pa:ngo bele musi aatalo"
+    },
+    {
+      "indonesia": "Kami mengabadikan namanya di prasasti.",
+      "gorontalo_pred": "Ami lopoduoto tangguliyo to prasasti"
+    },
+    {
+      "indonesia": "Siapa yang mengambil bukumu?",
+      "gorontalo_pred": "Tato:nu ta lohama bukumu?"
+    },
+    {
+      "indonesia": "Jangan lupa berobat ke dokter.",
+      "gorontalo_pred": "Di:la lipata mohunema oli dokuteri"
+    },
+    {
+      "indonesia": "Rumah Pak Dula sangat bersih.",
+      "gorontalo_pred": "Bele lemei Dula sambe beresi"
+    },
+    {
+      "indonesia": "Ambillah ke sini buku itu.",
+      "gorontalo_pred": "Hama:mayi buku boyito"
+    },
+    {
+      "indonesia": "matahari",
+      "gorontalo_pred": "dulahu"
+    },
+    {
+      "indonesia": "air mata",
+      "gorontalo_pred": "ponu"
+    },
+    {
+      "indonesia": "mata air",
+      "gorontalo_pred": "mato lo taluhu"
+    },
+    {
+      "indonesia": "pengantin",
+      "gorontalo_pred": "bule:ntiti"
+    },
+    {
+      "indonesia": "siang",
+      "gorontalo_pred": "mohulo:nu"
+    },
+    {
+      "indonesia": "hujan",
+      "gorontalo_pred": "didi"
+    },
+    {
+      "indonesia": "Matahari sudah terbit",
+      "gorontalo_pred": "Matolodulahu ma lobutu"
+    }
+  ],
+  "qualitative_gor_to_id": [
+    {
+      "gorontalo": "Wa:tiya loona:o ode pa:tali ola:ngo.",
+      "indonesia_pred": "Saya pergi ke pasar kemarin"
+    },
+    {
+      "gorontalo": "Timi-timiidu dumodupo pa:ngo musi aatalo.",
+      "indonesia_pred": "Tiap pagi halaman harus disapu"
+    },
+    {
+      "gorontalo": "Yilongola yio di:la losikola?",
+      "indonesia_pred": "Kenapa engkau tidak bersekolah?"
+    },
+    {
+      "gorontalo": "Ngoolo haraga lo buku botiya?",
+      "indonesia_pred": "Berapa harga buku ini?"
+    },
+    {
+      "gorontalo": "Tiyo hulo-huloo to bele.",
+      "indonesia_pred": "Ia duduk di rumah"
+    },
+    {
+      "gorontalo": "Lapatao mongaato yio mao polihulo.",
+      "indonesia_pred": "Setelah menyapu engkau mandi saja"
+    }
+  ],
+  "baseline_zero_shot": {
+    "id_to_gor": {
+      "sacrebleu": 0.17,
+      "chrf_plusplus": 10.26
+    },
+    "gor_to_id": {
+      "sacrebleu": 0.24,
+      "chrf_plusplus": 10.66
+    }
+  },
+  "training_summary": {
+    "model_name": "facebook/nllb-200-distilled-600M",
+    "saved_path": "/content/drive/MyDrive/REPO/richie/modelgorontalo/models/nllb-200-gorontalo-bi-600M",
+    "train_samples": 309206,
+    "train_samples_before_oversampling": 145920,
+    "short_lexicon_weight": 3,
+    "val_samples": 2898,
+    "test_samples": 2890,
+    "epochs": 4,
+    "train_loss": 1.1307,
+    "elapsed_minutes": 70.14
+  }
+}
